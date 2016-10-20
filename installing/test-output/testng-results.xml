@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="2" passed="2">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="51449" started-at="2016-10-19T07:45:52Z" finished-at="2016-10-19T07:46:43Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="51449" started-at="2016-10-19T07:45:52Z" finished-at="2016-10-19T07:46:43Z">
+      <class name="myfinance.Datadriven">
+        <test-method status="PASS" signature="Login(java.lang.String, java.lang.String, java.lang.String)[pri:1, instance:myfinance.Datadriven@1ba9117e]" name="Login" duration-ms="19757" started-at="2016-10-19T13:15:52Z" data-provider="logintestdata" finished-at="2016-10-19T13:16:12Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[https://test-itsmyaccount.azurewebsites.net/login]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[DEMO_12]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[DEMO_12]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Login -->
+        <test-method status="PASS" signature="Addfacility()[pri:2, instance:myfinance.Datadriven@1ba9117e]" name="Addfacility" duration-ms="31358" started-at="2016-10-19T13:16:12Z" finished-at="2016-10-19T13:16:43Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Addfacility -->
+      </class> <!-- myfinance.Datadriven -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
