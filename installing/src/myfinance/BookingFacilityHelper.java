@@ -82,7 +82,6 @@ public class BookingFacilityHelper {
 			driver.findElement(By.id("Amt1")).sendKeys(amount1);
 			Thread.sleep(2000);
 			DueDate(driver, days1);
-			//driver.findElement(By.id("DueDate")).sendKeys(days1);
 			Thread.sleep(2000);
 			driver.findElement(By.xpath(".//*[@id='Facility']/div/div[3]/button[1]")).click();
 			Thread.sleep(2000);
@@ -109,16 +108,36 @@ public class BookingFacilityHelper {
 	  Thread.sleep(3000);
 	  } } }
 	 */
-	public String BookFacility(WebDriver driver,String URL, String facilityname, String fromtime, String totime, String blockno,
-			String apartmentno, String description) throws InterruptedException {
+	public void BookFacility(WebDriver driver) throws InterruptedException, BiffException, IOException {
 		Thread.sleep(2000);
-		driver.navigate().to(URL);
+		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
+		Workbook ws = Workbook.getWorkbook(fs);
+		Sheet s = ws.getSheet("BookFacility");
+		int rows = s.getRows();
+		int columns = s.getColumns();
+		String inputdata[][] = new String[rows-1][columns];
+		for (int i = 1; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				Cell cl = s.getCell(j, i);
+				inputdata[i-1][j] = cl.getContents();
+			}
+		}
+		
+		for (int i = 0; i < rows-1; i++) {
+			String URL1 = inputdata[i][0];
+			String facilityname1= inputdata[i][1];
+			String fromtime1 =inputdata[i][2];
+			String totime1 =inputdata[i][3];
+			String blockno1 =inputdata[i][4];
+			String apartmentno1 = inputdata[i][5];
+			String description1 =inputdata[i][6];
+		driver.navigate().to(URL1);
 		Thread.sleep(4000);
 		driver.findElement(By.id("searchgrid")).click(); // search
 		Thread.sleep(4000);
 		driver.findElement(By.xpath("//option[contains(.,'Facility Name')]")).click();
 		Thread.sleep(4000);
-		driver.findElement(By.id("jqg1")).sendKeys(facilityname);
+		driver.findElement(By.id("jqg1")).sendKeys(facilityname1);
 		Thread.sleep(4000);
 		driver.findElement(By.id("fbox_Grid_search")).click();// find button
 		Thread.sleep(4000);
@@ -139,33 +158,30 @@ public class BookingFacilityHelper {
 		Thread.sleep(2000);
 		driver.findElement(By.id("FromDate")).sendKeys(df.format(datespecified));
 		Thread.sleep(2000);
-		String bookeddate = driver.findElement(By.id("FromDate")).getText();
-		System.out.println(bookeddate);
 		driver.findElement(By.id("FromTime")).clear();
 		Thread.sleep(2000);
-		driver.findElement(By.id("FromTime")).sendKeys(fromtime);
+		driver.findElement(By.id("FromTime")).sendKeys(fromtime1);
 		Thread.sleep(2000);
-		((JavascriptExecutor) driver).executeScript("document.getElementById('ToDate').removeAttribute('readonly',0);");
-		WebElement todate = driver.findElement(By.id("ToDate"));
-		todate.clear();
-		todate.sendKeys(df.format(datespecified)); // Enter this date details
-													// with valid date format
+		driver.findElement(By.id("ToDate")).clear();
+		Thread.sleep(2000);
+		driver.findElement(By.id("ToDate")).sendKeys(df.format(datespecified));
 		Thread.sleep(2000);
 		driver.findElement(By.xpath(".//*[@id='FacilityBooking']/div/div[2]/div/div/div/div/div[2]")).click();
 		Thread.sleep(5000);
 		driver.findElement(By.id("ToTime")).clear();
 		Thread.sleep(2000);
-		driver.findElement(By.id("ToTime")).sendKeys(totime);
+		driver.findElement(By.id("ToTime")).sendKeys(totime1);
+		Thread.sleep(2000);
 		driver.findElement(By.id("auto_BlockID")).clear();
 		Thread.sleep(2000);
-		driver.findElement(By.id("auto_BlockID")).sendKeys(blockno);
+		driver.findElement(By.id("auto_BlockID")).sendKeys(blockno1);
 		Thread.sleep(2000);
-		driver.findElement(By.id("auto_ApartmentID")).sendKeys(apartmentno);
+		driver.findElement(By.id("auto_ApartmentID")).sendKeys(apartmentno1);
 		Thread.sleep(3000);
-		driver.findElement(By.id("Description")).sendKeys(description);
+		driver.findElement(By.id("Description")).sendKeys(description1);
 		Thread.sleep(2000);
 		driver.findElement(By.xpath(".//*[@id='FacilityBooking']/div/div[3]/button[2]")).submit();
-		Thread.sleep(4000);
+		Thread.sleep(2000);
 		Alert alert2 = driver.switchTo().alert();
 		Thread.sleep(2000);
 		String message3 = alert2.getText();
@@ -173,8 +189,12 @@ public class BookingFacilityHelper {
 		Thread.sleep(4000);
 		alert2.accept();
 		Thread.sleep(2000);
+		WebElement header = driver.findElement(By.xpath("html/body/div[1]/div/div/div/div[1]/h3"));
+		String value = header.getText();
+		Assert.assertEquals(value, "Facility Availability");
+		Thread.sleep(2000);
 		System.out.println("Facility booked successfully Invoice no. generated");
-		return bookeddate;
+		}
 	}
 
 	public String ToVerifyGeneratedVoucherno(WebDriver driver) throws InterruptedException {
