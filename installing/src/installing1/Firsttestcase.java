@@ -11,7 +11,8 @@ public class Firsttestcase {
 		else{
 			System.out.println("Odd Number");
 		}
-		System.out.println(a/b);		
+		System.out.println(a/b);
+		System.out.println("swetha");
 	}
 	}
 
