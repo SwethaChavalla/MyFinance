@@ -22,46 +22,31 @@ PayingFIGvoucher()method.*/
 
 public class FinanceTestingIMA_TC_001 {
 	WebDriver driver = new FirefoxDriver();
-	String Figvoucher;
 	logindetails ldr = new logindetails();
-
-	BookingFacilityhelpdemo12 help1 = new BookingFacilityhelpdemo12();
-	FinancialVouchersHelp help2 = new FinancialVouchersDEMO12();
-
+	BookingFacilityHelper help1 = new BookingFacilityhelpdemo12();
+	
+	
 	@Test(priority = 1, dataProvider = "logintestdata")
-	 public void Login(String URL,String username, String password) throws InterruptedException {
+	  public void Login(String URL,String username, String password) throws InterruptedException {
 		ldr.adminlogin(driver,URL, username, password);
-		Thread.sleep(3000);
+		Thread.sleep(2000);
 	}
-
 	@Test(priority = 2)
-	public void AddFacility() throws BiffException, InterruptedException, IOException {
+	public void Addfacility() throws BiffException, InterruptedException, IOException{
 		help1.Addfacility(driver);
-
+	
 	}
-
 	@Test(priority = 3)
-	public void BookFacility() throws BiffException, InterruptedException, IOException {
+	public void Bookfacility() throws BiffException, InterruptedException, IOException{
 		help1.BookFacility(driver);
 	}
-
-	@Test(priority = 4, dependsOnMethods = { "BookFacility" })
-	public void GetFIGvoucher() throws InterruptedException {
-		String voucher = help1.ToVerifyGeneratedVoucherno(driver);
-		Figvoucher = voucher;
-
+	@Test(priority = 4)
+	public void FIGvoucherno() throws InterruptedException, BiffException, IOException{
+		help1.ToVerifyGeneratedVoucherno(driver);
 	}
-
-	@Test(priority = 5, dependsOnMethods = { "GetFIGvoucher" })
-	public void PayingFIGvoucher() throws InterruptedException {
-		help2.Payment(driver, Figvoucher);
-
-	}
-
 	@DataProvider    (name = "logintestdata")
     public  Object [][] readexcel()  throws  IOException, BiffException  {
-        // TODO Auto-generated method stub
-    File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
+       File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
         Workbook ws= Workbook.getWorkbook(fs);
         Sheet s = ws.getSheet("Logindata");
         int rows = s.getRows();
@@ -76,4 +61,13 @@ public class FinanceTestingIMA_TC_001 {
         }
                 return inputdata;
     }
+
+
+	/*@Test(priority = 5, dependsOnMethods = { "GetFIGvoucher" })
+	public void PayingFIGvoucher() throws InterruptedException {
+		help2.Payment(driver, Figvoucher);
+
+	}
+*/
+	
 }
