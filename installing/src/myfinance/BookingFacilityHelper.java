@@ -24,9 +24,10 @@ import jxl.read.biff.BiffException;
 
 public class BookingFacilityHelper {
 	//WebDriver driver = new FirefoxDriver();
-	int year = 2016;
-	int month = 9;
-	int day = 4;
+	logindetails ldr = new logindetails();
+	String fromdate = "FromDate";
+	String todate = "ToDate";
+	
 	
 	
 
@@ -148,7 +149,7 @@ public class BookingFacilityHelper {
 		Thread.sleep(4000);
 		driver.findElement(By.id("Add")).click();
 		Thread.sleep(5000);
-		Calendar c = Calendar.getInstance();
+		/*Calendar c = Calendar.getInstance();
 		c.set(Calendar.YEAR, year);
 		c.set(Calendar.MONTH, month);
 		c.set(Calendar.DAY_OF_MONTH, day);
@@ -157,14 +158,18 @@ public class BookingFacilityHelper {
 		driver.findElement(By.id("FromDate")).clear();
 		Thread.sleep(2000);
 		driver.findElement(By.id("FromDate")).sendKeys(df.format(datespecified));
+		Thread.sleep(2000);*/
+		ldr.Date(driver,fromdate);
 		Thread.sleep(2000);
 		driver.findElement(By.id("FromTime")).clear();
 		Thread.sleep(2000);
 		driver.findElement(By.id("FromTime")).sendKeys(fromtime1);
 		Thread.sleep(2000);
-		driver.findElement(By.id("ToDate")).clear();
+		/*driver.findElement(By.id("ToDate")).clear();
 		Thread.sleep(2000);
 		driver.findElement(By.id("ToDate")).sendKeys(df.format(datespecified));
+		Thread.sleep(2000);*/
+		ldr.Date(driver,todate);
 		Thread.sleep(2000);
 		driver.findElement(By.xpath(".//*[@id='FacilityBooking']/div/div[2]/div/div/div/div/div[2]")).click();
 		Thread.sleep(5000);
