@@ -23,44 +23,36 @@ import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 public class BookingFacilityHelper {
-	//WebDriver driver = new FirefoxDriver();
+	private static final String FIGvoucherno = null;
+	// WebDriver driver = new FirefoxDriver();
 	logindetails ldr = new logindetails();
 	String fromdate = "FromDate";
 	String todate = "ToDate";
-	
-	
-	
 
-	/*public void managefacility() throws InterruptedException {
-		logindetails ldr = new logindetails();
-		ldr.adminlogin(driver, "DEMO_9", "DEMO_9");
-		driver.navigate().to("https://www.itsmyaccount.com/Facility");
-		Thread.sleep(3000);
-	}*/
 	public void Addfacility(WebDriver driver) throws InterruptedException, BiffException, IOException {
-	
-	File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
-	Workbook ws = Workbook.getWorkbook(fs);
-	Sheet s = ws.getSheet("AddFacility");
-	int rows = s.getRows();
-	int columns = s.getColumns();
-	String inputdata[][] = new String[rows-1][columns];
-	for (int i = 1; i < rows; i++) {
-		for (int j = 0; j < columns; j++) {
-			Cell cl = s.getCell(j, i);
-			inputdata[i-1][j] = cl.getContents();
+
+		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
+		Workbook ws = Workbook.getWorkbook(fs);
+		Sheet s = ws.getSheet("AddFacility");
+		int rows = s.getRows();
+		int columns = s.getColumns();
+		String inputdata[][] = new String[rows - 1][columns];
+		for (int i = 1; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				Cell cl = s.getCell(j, i);
+				inputdata[i - 1][j] = cl.getContents();
+			}
 		}
-	}
-	
-	for (int i = 0; i <rows-1; i++) {
-		String URL = inputdata[i][0];
-		String facilityname1 = inputdata[i][1];
-		String contactperson1 = inputdata[i][2];
-		String contactnumber1 = inputdata[i][3];
-		String hour1 = inputdata[i][4];
-		String amount1 = inputdata[i][5];
-		String days1 = inputdata[i][6];
-		
+
+		for (int i = 0; i < rows - 1; i++) {
+			String URL = inputdata[i][0];
+			String facilityname1 = inputdata[i][1];
+			String contactperson1 = inputdata[i][2];
+			String contactnumber1 = inputdata[i][3];
+			String hour1 = inputdata[i][4];
+			String amount1 = inputdata[i][5];
+			String days1 = inputdata[i][6];
+
 			driver.navigate().to(URL);
 			driver.findElement(By.id("Add")).click();
 			Thread.sleep(3000);
@@ -93,22 +85,24 @@ public class BookingFacilityHelper {
 
 		}
 
-}
-	public void DueDate(WebDriver driver, String days){
+	}
+
+	public void DueDate(WebDriver driver, String days) {
 		System.out.println("Due date has not given");
 	}
-	
 
-  /* public void dropdown() throws InterruptedException{ 
-	   WebElement select = driver.findElement(By.id("rows")); 
-	   Thread.sleep(2000);
-	   List<WebElement>  options = select.findElements(By.tagName("option"));
-	   for (WebElement option : options){ 
-		   if ("40".equals(option.getText())){
-			   option.click();
-	  Thread.sleep(3000);
-	  } } }
-	 */
+	public void dropdown(WebDriver driver) throws InterruptedException {
+		WebElement select = driver.findElement(By.id("rows"));
+		Thread.sleep(2000);
+		List<WebElement> options = select.findElements(By.tagName("option"));
+		for (WebElement option : options) {
+			if ("40".equals(option.getText())) {
+				option.click();
+				Thread.sleep(3000);
+			}
+		}
+	}
+
 	public void BookFacility(WebDriver driver) throws InterruptedException, BiffException, IOException {
 		Thread.sleep(2000);
 		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
@@ -116,94 +110,95 @@ public class BookingFacilityHelper {
 		Sheet s = ws.getSheet("BookFacility");
 		int rows = s.getRows();
 		int columns = s.getColumns();
-		String inputdata[][] = new String[rows-1][columns];
+		String inputdata[][] = new String[rows - 1][columns];
 		for (int i = 1; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				Cell cl = s.getCell(j, i);
-				inputdata[i-1][j] = cl.getContents();
+				inputdata[i - 1][j] = cl.getContents();
 			}
 		}
-		
-		for (int i = 0; i < rows-1; i++) {
+
+		for (int i = 0; i < rows - 1; i++) {
 			String URL1 = inputdata[i][0];
-			String facilityname1= inputdata[i][1];
-			String fromtime1 =inputdata[i][2];
-			String totime1 =inputdata[i][3];
-			String blockno1 =inputdata[i][4];
+			String facilityname1 = inputdata[i][1];
+			String fromtime1 = inputdata[i][2];
+			String totime1 = inputdata[i][3];
+			String blockno1 = inputdata[i][4];
 			String apartmentno1 = inputdata[i][5];
-			String description1 =inputdata[i][6];
-		driver.navigate().to(URL1);
-		Thread.sleep(4000);
-		driver.findElement(By.id("searchgrid")).click(); // search
-		Thread.sleep(4000);
-		driver.findElement(By.xpath("//option[contains(.,'Facility Name')]")).click();
-		Thread.sleep(4000);
-		driver.findElement(By.id("jqg1")).sendKeys(facilityname1);
-		Thread.sleep(4000);
-		driver.findElement(By.id("fbox_Grid_search")).click();// find button
-		Thread.sleep(4000);
-		driver.findElement(By.xpath(".//*[@id='searchhdfbox_Grid']/a/span")).click(); // close
-																						// button
-		Thread.sleep(4000);
-		driver.findElement(By.xpath(".//*[@id='1']/td[12]/a/button")).click();
-		Thread.sleep(4000);
-		driver.findElement(By.id("Add")).click();
-		Thread.sleep(5000);
-		/*Calendar c = Calendar.getInstance();
-		c.set(Calendar.YEAR, year);
-		c.set(Calendar.MONTH, month);
-		c.set(Calendar.DAY_OF_MONTH, day);
-		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-		Date datespecified = c.getTime();
-		driver.findElement(By.id("FromDate")).clear();
-		Thread.sleep(2000);
-		driver.findElement(By.id("FromDate")).sendKeys(df.format(datespecified));
-		Thread.sleep(2000);*/
-		ldr.Date(driver,fromdate);
-		Thread.sleep(2000);
-		driver.findElement(By.id("FromTime")).clear();
-		Thread.sleep(2000);
-		driver.findElement(By.id("FromTime")).sendKeys(fromtime1);
-		Thread.sleep(2000);
-		/*driver.findElement(By.id("ToDate")).clear();
-		Thread.sleep(2000);
-		driver.findElement(By.id("ToDate")).sendKeys(df.format(datespecified));
-		Thread.sleep(2000);*/
-		ldr.Date(driver,todate);
-		Thread.sleep(2000);
-		driver.findElement(By.xpath(".//*[@id='FacilityBooking']/div/div[2]/div/div/div/div/div[2]")).click();
-		Thread.sleep(5000);
-		driver.findElement(By.id("ToTime")).clear();
-		Thread.sleep(2000);
-		driver.findElement(By.id("ToTime")).sendKeys(totime1);
-		Thread.sleep(2000);
-		driver.findElement(By.id("auto_BlockID")).clear();
-		Thread.sleep(2000);
-		driver.findElement(By.id("auto_BlockID")).sendKeys(blockno1);
-		Thread.sleep(2000);
-		driver.findElement(By.id("auto_ApartmentID")).sendKeys(apartmentno1);
-		Thread.sleep(3000);
-		driver.findElement(By.id("Description")).sendKeys(description1);
-		Thread.sleep(2000);
-		driver.findElement(By.xpath(".//*[@id='FacilityBooking']/div/div[3]/button[2]")).submit();
-		Thread.sleep(2000);
-		Alert alert2 = driver.switchTo().alert();
-		Thread.sleep(2000);
-		String message3 = alert2.getText();
-		System.out.println(message3);
-		Thread.sleep(4000);
-		alert2.accept();
-		Thread.sleep(2000);
-		WebElement header = driver.findElement(By.xpath("html/body/div[1]/div/div/div/div[1]/h3"));
-		String value = header.getText();
-		Assert.assertEquals(value, "Facility Availability");
-		Thread.sleep(2000);
-		System.out.println("Facility booked successfully Invoice no. generated");
+			String description1 = inputdata[i][6];
+			driver.navigate().to(URL1);
+			Thread.sleep(4000);
+			driver.findElement(By.id("searchgrid")).click(); // search
+			Thread.sleep(4000);
+			driver.findElement(By.xpath("//option[contains(.,'Facility Name')]")).click();
+			Thread.sleep(4000);
+			driver.findElement(By.id("jqg1")).sendKeys(facilityname1);
+			Thread.sleep(4000);
+			driver.findElement(By.id("fbox_Grid_search")).click();// find button
+			Thread.sleep(4000);
+			driver.findElement(By.xpath(".//*[@id='searchhdfbox_Grid']/a/span")).click(); // close
+																							// button
+			Thread.sleep(4000);
+			driver.findElement(By.xpath(".//*[@id='1']/td[12]/a/button")).click();
+			Thread.sleep(4000);
+			driver.findElement(By.id("Add")).click();
+			Thread.sleep(5000);
+			ldr.Date(driver, fromdate);
+			Thread.sleep(2000);
+			driver.findElement(By.id("FromTime")).clear();
+			Thread.sleep(2000);
+			driver.findElement(By.id("FromTime")).sendKeys(fromtime1);
+			Thread.sleep(2000);
+			ldr.Date(driver, todate);
+			Thread.sleep(2000);
+			driver.findElement(By.xpath(".//*[@id='FacilityBooking']/div/div[2]/div/div/div/div/div[2]")).click();
+			Thread.sleep(5000);
+			driver.findElement(By.id("ToTime")).clear();
+			Thread.sleep(2000);
+			driver.findElement(By.id("ToTime")).sendKeys(totime1);
+			Thread.sleep(2000);
+			driver.findElement(By.id("auto_BlockID")).clear();
+			Thread.sleep(2000);
+			driver.findElement(By.id("auto_BlockID")).sendKeys(blockno1);
+			Thread.sleep(2000);
+			driver.findElement(By.id("auto_ApartmentID")).sendKeys(apartmentno1);
+			Thread.sleep(3000);
+			driver.findElement(By.id("Description")).sendKeys(description1);
+			Thread.sleep(2000);
+			driver.findElement(By.xpath(".//*[@id='FacilityBooking']/div/div[3]/button[2]")).submit();
+			Thread.sleep(2000);
+			Alert alert2 = driver.switchTo().alert();
+			Thread.sleep(2000);
+			String message3 = alert2.getText();
+			System.out.println(message3);
+			Thread.sleep(4000);
+			alert2.accept();
+			Thread.sleep(2000);
+			WebElement header = driver.findElement(By.xpath("html/body/div[1]/div/div/div/div[1]/h3"));
+			String value = header.getText();
+			Assert.assertEquals(value, "Facility Availability");
+			Thread.sleep(2000);
+			System.out.println("Facility booked successfully Invoice no. generated");
 		}
 	}
 
-	public String ToVerifyGeneratedVoucherno(WebDriver driver) throws InterruptedException {
-		driver.navigate().to("https://test-itsmyaccount.azurewebsites.net/Voucher");
+	public String ToVerifyGeneratedVoucherno(WebDriver driver) throws InterruptedException, BiffException, IOException {
+		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
+		Workbook ws = Workbook.getWorkbook(fs);
+		Sheet s = ws.getSheet("UrlForFIGno");
+		int rows = s.getRows();
+		int columns = s.getColumns();
+		String inputdata[][] = new String[rows - 1][columns];
+		for (int i = 1; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				Cell cl = s.getCell(j, i);
+				inputdata[i - 1][j] = cl.getContents();
+			}
+		}
+
+		for (int i = 0; i < rows - 1; i++) {
+			String url = inputdata[i][0];
+		driver.navigate().to(url);
 		Thread.sleep(4000);
 		driver.findElement(
 				By.xpath("html/body/div[1]/div/div/div[1]/div[2]/div[1]/div/div/div/table/tbody/tr/td[3]/div/a/i"))
@@ -212,13 +207,14 @@ public class BookingFacilityHelper {
 		driver.findElement(By.linkText("Facility Booking")).click();
 		Thread.sleep(4000);
 		String FIGvoucherno = driver.findElement(By.xpath(".//*[@id='1']/td[6]")).getText();
-		System.out.println("Generated Facility Booked Voucherno : " +FIGvoucherno);
+		System.out.println("Generated Facility Booked Voucherno : " + FIGvoucherno);
 		String duedate = driver.findElement(By.xpath(".//*[@id='1']/td[11]")).getText();
 		System.out.println("Duedate  " + duedate);
 		driver.navigate().refresh();
+		}
 		return FIGvoucherno;
 	}
-	
+
 	public String ToVerifyGeneratedVouchernoforscenario4(WebDriver driver) throws InterruptedException {
 		driver.navigate().to("https://test-itsmyaccount.azurewebsites.net/Voucher");
 		Thread.sleep(4000);
@@ -229,37 +225,16 @@ public class BookingFacilityHelper {
 		driver.findElement(By.linkText("Facility Booking")).click();
 		Thread.sleep(4000);
 		String FIGvoucherno = driver.findElement(By.xpath(".//*[@id='1']/td[6]")).getText();
-		System.out.println("Generated Facility Booked Voucherno : " +FIGvoucherno);
+		System.out.println("Generated Facility Booked Voucherno : " + FIGvoucherno);
 		String duedate = driver.findElement(By.xpath(".//*[@id='1']/td[11]")).getText();
 		System.out.println("Duedate  " + duedate);
-		String clearedvouchers= driver.findElement(By.xpath(".//*[@id='1']/td[12]")).getText();
+		String clearedvouchers = driver.findElement(By.xpath(".//*[@id='1']/td[12]")).getText();
 		System.out.println("Facility booked adjusted with advance vouchers " + clearedvouchers);
 		driver.navigate().refresh();
 		return FIGvoucherno;
 	}
-//For cancel the booked facility use below method	
-	/*public void VerifyFacilityBookedForGivenDateandtoCancel() throws InterruptedException{
-	WebElement calendertable = driver.findElement(By.xpath(".//*[@id='calendar']/div[2]"));
-	Thread.sleep(4000);
-	List<WebElement> cellrows = calendertable.findElements(By.cssSelector(".cal-row-fluid.cal-before-eventlist"));
-	Thread.sleep(4000);
-	for (int x = 1; x < 5; x++) {
-		Thread.sleep(4000);
-		List<WebElement> columns = cellrows.get(x).findElements(By.tagName("div"));
-		Thread.sleep(4000);
-		for (int i = 0; i <= 12; i++) {
-			String givendate = columns.get(i).getText();
-			Thread.sleep(4000);
-			String number = Integer.toString(day);
-			if (number.equals(givendate)) {
-				columns.get(i).click();
-				Thread.sleep(2000);
-				break;
-			}
-		}
-	}
-	}*/
-	/*public void VerifyFacilityBookedForGivenDate(WebDriver driver) throws InterruptedException {
+
+	public void VerifyFacilityBookedForGivenDateandtoCancel(WebDriver driver, int day) throws InterruptedException {
 		WebElement calendertable = driver.findElement(By.xpath(".//*[@id='calendar']/div[2]"));
 		Thread.sleep(4000);
 		List<WebElement> cellrows = calendertable.findElements(By.cssSelector(".cal-row-fluid.cal-before-eventlist"));
@@ -279,93 +254,30 @@ public class BookingFacilityHelper {
 				}
 			}
 		}
-	}*/
-	public void Addfacility(WebDriver driver, String facilityname, String contactperson, String contactnumber,
-			String hour, String amount, String days) throws InterruptedException {
-		driver.navigate().to("https://test-itsmyaccount.azurewebsites.net/Facility");
-		driver.findElement(By.id("Add")).click();
-		Thread.sleep(2000);
-		driver.findElement(By.id("FacilityName")).sendKeys(facilityname);
-		Thread.sleep(2000);
-		driver.findElement(By.id("ContactPerson")).sendKeys(contactperson);
-		Thread.sleep(2000);
-		driver.findElement(By.id("ContactNumber")).sendKeys(contactnumber);
-		Thread.sleep(2000);
-		driver.findElement(By.id("IsBookingAllowed")).click();
-		Thread.sleep(2000);
-		driver.findElement(By.id("IsPaid")).click();
-		Thread.sleep(2000);
-		driver.findElement(By.id("M1")).clear();
-		Thread.sleep(2000);
-		driver.findElement(By.id("M1")).sendKeys(hour);
-		Thread.sleep(2000);
-		driver.findElement(By.id("Amt1")).clear();
-		Thread.sleep(2000);
-		driver.findElement(By.id("Amt1")).sendKeys(amount);
-		Thread.sleep(2000);
-		Select duedate =new Select(driver.findElement(By.id("TypeOfDueDate")));
-		duedate.selectByIndex(2);
-		driver.findElement(By.id("DueDate")).sendKeys(days);
-		driver.findElement(By.xpath(".//*[@id='Facility']/div/div[3]/button[1]")).click();
-		Thread.sleep(2000);
-
 	}
 
-
-	@DataProvider(name = "testdata")
-	public Object[][] readexcel() throws IOException, BiffException {
-		// TODO Auto-generated method stub
-		File fs = new File("C:/Users/Swetha/Desktop/variabledata.xls");
-		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet(1);
-		int rows = s.getRows();
-		int columns = s.getColumns();
-		String inputdata[][] = new String[rows][columns];
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				Cell cl = s.getCell(j, i);
-				inputdata[i][j] = cl.getContents();
-				System.out.println(inputdata[i][j]);
+	public void VerifyFacilityBookedForGivenDate(WebDriver driver, int day) throws InterruptedException {
+		WebElement calendertable = driver.findElement(By.xpath(".//*[@id='calendar']/div[2]"));
+		Thread.sleep(4000);
+		List<WebElement> cellrows = calendertable.findElements(By.cssSelector(".cal-row-fluid.cal-before-eventlist"));
+		Thread.sleep(4000);
+		for (int x = 1; x < 5; x++) {
+			Thread.sleep(4000);
+			List<WebElement> columns = cellrows.get(x).findElements(By.tagName("div"));
+			Thread.sleep(4000);
+			for (int i = 0; i <= 12; i++) {
+				String givendate = columns.get(i).getText();
+				Thread.sleep(4000);
+				String number = Integer.toString(day);
+				if (number.equals(givendate)) {
+					columns.get(i).click();
+					Thread.sleep(2000);
+					break;
+				}
 			}
 		}
-		return inputdata;
 	}
 
-	@DataProvider(name = "testdata1")
-	public Object[][] readexcel1() throws IOException, BiffException {
-		// TODO Auto-generated method stub
-		File fs = new File("C:/Users/Swetha/Desktop/variabledata.xls");
-		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet(2);
-		int rows = s.getRows();
-		int columns = s.getColumns();
-		String inputdata2[][] = new String[rows][columns];
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				Cell cl = s.getCell(j, i);
-				inputdata2[i][j] = cl.getContents();
-				System.out.println(inputdata2[i][j]);
-			}
-		}
-		return inputdata2;
-	}
 	
-	@DataProvider(name = "testdata2")
-	public Object[][] readexcel2() throws IOException, BiffException {
-		// TODO Auto-generated method stub
-		File fs = new File("C:/Users/Swetha/Desktop/Variable Data For Scenario6.xls");
-		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet(2);
-		int rows = s.getRows();
-		int columns = s.getColumns();
-		String inputdata2[][] = new String[rows][columns];
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				Cell cl = s.getCell(j, i);
-				inputdata2[i][j] = cl.getContents();
-				System.out.println(inputdata2[i][j]);
-			}
-		}
-		return inputdata2;
-	}
+	
 }
