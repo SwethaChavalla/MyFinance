@@ -29,7 +29,14 @@ public class Datadriven {
 		help1.Addfacility(driver);
 	
 	}
-	
+	@Test(priority = 3)
+	public void Bookfacility() throws BiffException, InterruptedException, IOException{
+		help1.BookFacility(driver);
+	}
+	@Test(priority = 4)
+	public void FIGvoucherno() throws InterruptedException, BiffException, IOException{
+		help1.ToVerifyGeneratedVoucherno(driver);
+	}
 	@DataProvider    (name = "logintestdata")
     public  Object [][] readexcel()  throws  IOException, BiffException  {
        File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
