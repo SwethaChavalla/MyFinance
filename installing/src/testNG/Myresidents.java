@@ -8,12 +8,13 @@ import myfinance.logindetails;
 
 public class Myresidents {
 	WebDriver driver = new FirefoxDriver();
-
-	@Test (priority=1)
-	public void managefacility() throws InterruptedException{
-    logindetails ldr = new logindetails();
-    //ldr.forgotuserid(driver);
-    ldr.adminlogin(driver,"DEMO_9","DEMO_9");
+	  logindetails ldr = new logindetails();
+    @Test(priority = 1, dataProvider = "logintestdata")
+	  public void Login(String URL,String username, String password) throws InterruptedException {
+		ldr.adminlogin(driver,URL, username, password);
+		Thread.sleep(2000);
+	}
+  //ldr.forgotuserid(driver);
    	/*driver.findElement(By.id("ContactPopup")).click();
    	Thread.sleep(2000);
    WebElement em = driver.findElement(By.id("Email"));
@@ -24,7 +25,7 @@ public class Myresidents {
    em.sendKeys("swethachavalla@gmail.com");
    Thread.sleep(2000);
 */
-}
+
 	/*@Test (priority=2)
 	public void sendSMS() throws InterruptedException{
 		driver.findElement(By.id("searchgrid")).click();
@@ -74,6 +75,7 @@ public class Myresidents {
 		
 	
 }
+
 
 	
 	
