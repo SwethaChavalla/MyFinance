@@ -20,8 +20,8 @@ import jxl.read.biff.BiffException;
 public class FinancialVouchersDEMO12 extends FinancialVouchersHelp{
 	
 	int year = 2016;
-	int month = 9;
-	int day = 23;
+	int month = 10;
+	int day = 6;
 	
 	public void setDate(WebDriver driver) throws InterruptedException{
 		//System.out.println("setDate");
