@@ -35,7 +35,7 @@ public class FinancialTestingIMA_TC_003 {
 	}
 	
 	@Test(priority =2,dataProvider = "VariableInvoice")
-	public void PayVariableInvoice(String splitmessage) throws InterruptedException{
+	public void PayVariableInvoice(String splitmessage) throws InterruptedException, BiffException, IOException{
 		ldr.SearchVoucherno(driver, splitmessage);
 		help2.Payment(driver, splitmessage);
 		
