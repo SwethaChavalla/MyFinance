@@ -24,9 +24,7 @@ public class FinancialVouchersHelp {
 		Thread.sleep(4000);
 		driver.findElement(By.id("Payment")).click();
 		Thread.sleep(4000);
-		
 		setDate(driver);
-		
 		driver.findElement(By.xpath(".//*[@id='Payment']/div/div/div[2]/div[2]/div[1]/div/a/i")).click();
 		Thread.sleep(4000);
 		driver.findElement(By.linkText("Yuva")).click();
@@ -64,7 +62,7 @@ public class FinancialVouchersHelp {
 		System.out.println(message3);
 		String splitmessage = message3.split(" ")[1];
 		Thread.sleep(4000);
-		System.out.println("Generated Receipt no:"  + splitmessage);
+		System.out.println("Generated Payment Receipt no:"  + splitmessage);
 		alert.accept();
 		Thread.sleep(2000);
 		return splitmessage;
