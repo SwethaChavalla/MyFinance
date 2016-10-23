@@ -22,13 +22,12 @@ public class FinanceTestingIMA_TC_002 {
 WebDriver driver = new FirefoxDriver();
 String splitmessage;
 logindetails ldr = new logindetails();
-InvoiceGenerationHelper help1 = new InvoiceGenerationhelpdemo12();
+InvoiceGenerationHelper help1 = new InvoiceGenerationHelper();
 
 @Test(priority = 1, dataProvider = "logintestdata")
-public void Login(String username, String password, String URL) throws InterruptedException {
-	ldr.adminlogin(driver, username, password);
-	driver.navigate().to(URL);
-	Thread.sleep(3000);
+public void Login(String URL,String username, String password) throws InterruptedException {
+	ldr.adminlogin(driver,URL, username, password);
+	Thread.sleep(2000);
 }
 @DataProvider(name="FixedInvoiceno")
 public Object[][] FixedInvoiceGenerationWithDates() throws BiffException, InterruptedException, IOException{
@@ -36,26 +35,26 @@ public Object[][] FixedInvoiceGenerationWithDates() throws BiffException, Interr
 	
 }
 @Test(priority=2,dataProvider="FixedInvoiceno")
-public void ReverseFixedInvoice(String splitmessage) throws InterruptedException{
+public void ReverseFixedInvoice(String splitmessage) throws InterruptedException, BiffException, IOException{
 	help1.ReverseInvoice(driver, splitmessage);
 }
 
-@DataProvider(name = "logintestdata")
-public Object[][] readexcel() throws IOException, BiffException {
-	File fs = new File(
-			"C:/Users/Swetha/Desktop/Financial scenarios data xls files/Copy of Vaariable data for scenario1 in Finance scenarios.xls");
-	Workbook ws = Workbook.getWorkbook(fs);
-	Sheet s = ws.getSheet(0);
-	int rows = s.getRows();
-	int columns = s.getColumns();
-	String inputdata[][] = new String[rows][columns];
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < columns; j++) {
-			Cell cl = s.getCell(j, i);
-			inputdata[i][j] = cl.getContents();
-		}
-	}
-	return inputdata;
+@DataProvider    (name = "logintestdata")
+public  Object [][] readexcel()  throws  IOException, BiffException  {
+   File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
+    Workbook ws= Workbook.getWorkbook(fs);
+    Sheet s = ws.getSheet("Logindata");
+    int rows = s.getRows();
+    int columns = s.getColumns();
+    String inputdata [][]= new String [rows-1][columns]; 
+    for (int i=1; i<rows; i++){
+        for (int j=0; j<columns; j++){
+            Cell cl = s.getCell(j,i);
+            inputdata [i-1][j] = cl.getContents();
+                  
+        }
+    }
+            return inputdata;
 }
 	}
 
