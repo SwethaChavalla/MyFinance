@@ -2,7 +2,11 @@ package myfinance;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.Alert;
@@ -23,6 +27,9 @@ import jxl.read.biff.BiffException;
 
 public class InvoiceGenerationHelper {
 	// WebDriver driver = new FirefoxDriver();
+	logindetails ldr = new logindetails();
+	String fromdate = "InvoiceDate";
+	String todate = "DueDate";
 	String splitmessge;
 
 	/*
@@ -38,29 +45,34 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 		String[][] fixedvoucherno = new String[1][1];
 		
 		Thread.sleep(4000);
-		File fs = new File("C:/Users/Swetha/Desktop/Financial scenarios data xls files/FixedInvoiceGeneration data.xls");
+		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
 		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet(0);
+		Sheet s = ws.getSheet("FixedInvoiceGeneration");
 		int rows = s.getRows();
 		int columns = s.getColumns();
-		String inputdata[][] = new String[rows][columns];
-		for (int i = 0; i < rows; i++) {
+		String inputdata[][] = new String[rows-1][columns];
+		for (int i = 1; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				Cell cl = s.getCell(j, i);
-				inputdata[i][j] = cl.getContents();
+				inputdata[i-1][j] = cl.getContents();
 			}
 		}
-		for (int i = 0; i < rows; i++) {
+		for (int i = 0; i < rows-1; i++) {
 			Thread.sleep(2000);
-			driver.navigate().to("https://www.itsmyaccount.com/Invoice");
+			//driver.navigate().to("https://test-itsmyaccount.azurewebsites.net/Invoice");
 			String URL = inputdata[i][0];
 				String apartment = inputdata[i][1];
 				String Block = inputdata[i][2];
 				String amount = inputdata[i][3];
 				String narration = inputdata[i][4];
+				String URL2 = inputdata[i][5];
 				driver.navigate().to(URL);
 				Thread.sleep(2000);
 				driver.findElement(By.id("Fixed")).click();
+				Thread.sleep(2000);
+				ldr.FromDate(driver,fromdate);
+				Thread.sleep(2000);
+				ldr.ToDate(driver,todate);
 				Thread.sleep(2000);
 				driver.findElement(
 						By.xpath(".//*[@id='Invoice']/div[1]/div[2]/div/div[1]/div[2]/div[2]/div/div[2]/div/a/i"))
@@ -95,29 +107,30 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 				Thread.sleep(2000);
 				fixedvoucherno[0][0] = splitmessage;
 				Thread.sleep(2000);
-			
-		}
+				ldr.SearchVoucherno(driver,splitmessage);
+				}
 		return fixedvoucherno;
+}
+	
+	public void ReverseInvoice(WebDriver driver, String splitmessage) throws InterruptedException, BiffException, IOException {
+     //String[][] fixedvoucherno = new String[1][1];
 		
-	}
-	public void SearchFixedVoucherno(WebDriver driver, String fixedvoucherno) throws InterruptedException {
-		driver.navigate().to("https://www.itsmyaccount.com/Voucher");
-		Thread.sleep(4000);
-		driver.findElement(By.id("searchgrid")).click(); // search
-		Thread.sleep(4000);
-		driver.findElement(By.xpath("//option[contains(.,'Header Reference')]")).click();
-		Thread.sleep(4000);
-		driver.findElement(By.id("jqg2")).sendKeys(fixedvoucherno);
-		Thread.sleep(4000);
-		driver.findElement(By.id("fbox_Grid_search")).click();// find button
-		Thread.sleep(4000);
-		driver.findElement(By.xpath(".//*[@id='searchhdfbox_Grid']/a/span")).click(); // close
-																						// button
-		Thread.sleep(4000);
-	}
-
-	public void ReverseInvoice(WebDriver driver, String splitmessage) throws InterruptedException {
-		driver.navigate().to("https://test-itsmyaccount.azurewebsites.net/Invoice");
+		
+		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
+		Workbook ws = Workbook.getWorkbook(fs);
+		Sheet s = ws.getSheet("ReverseInvoiceURL");
+		int rows = s.getRows();
+		int columns = s.getColumns();
+		String inputdata[][] = new String[rows-1][columns];
+		for (int i = 1; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				Cell cl = s.getCell(j, i);
+				inputdata[i-1][j] = cl.getContents();
+			}
+		}
+		for (int i = 0; i < rows-1; i++) {
+			String URL = inputdata[i][0];
+		driver.navigate().to(URL);
 		Thread.sleep(4000);
 		driver.findElement(By.id("Reversal")).click();
 		Thread.sleep(4000);
@@ -126,8 +139,8 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 		driver.findElement(By.id("Go")).click();// submit button
 		Thread.sleep(4000);
 		WebElement reversaltable = driver.findElement(By.id("Grid"));
-		List<WebElement> rows = reversaltable.findElements(By.tagName("tr"));
-		int rowscount = rows.size();
+		List<WebElement> rows1 = reversaltable.findElements(By.tagName("tr"));
+		int rowscount = rows1.size();
 		if (rowscount == 1) {
 			System.out.println("Amount already paid for this voucher so reversal is not possible");
 		} else {
@@ -139,7 +152,7 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 				driver.findElement(By.xpath(".//*[@id='subform']/form/div[1]/div[3]/button")).click();// reverse
 																										// button
 				Thread.sleep(4000);
-				driver.findElement(By.id("Reason")).sendKeys("for facility booking amount is reversed");
+				driver.findElement(By.id("Reason")).sendKeys("reversing amount for Invoice" + splitmessage);
 				Thread.sleep(4000);
 				driver.findElement(By.id("Generate")).click(); // reverse button
 																// after giving
@@ -152,10 +165,33 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 				message2 = message2.split(" ")[3];
 				Thread.sleep(4000);
 				System.out.println("Reversal maintanance invoice no. " + message2);
-				Thread.sleep(4000);
+				Thread.sleep(2000);
 				alert2.accept();
+				Thread.sleep(2000);
+				ldr.SearchVoucherno(driver, message2);
+			
+				// SEARCH FOR VOUCHER NO.
+				/*driver.navigate().to("https://test-itsmyaccount.azurewebsites.net/Voucher");
+				Thread.sleep(2000);
+				driver.findElement(By.xpath("html/body/div[1]/div/div/div[1]/div[2]/div[1]/div/div/div/table/tbody/tr/td[3]/div/a/i")).click();
+				Thread.sleep(2000);
+				driver.findElement(By.id("searchgrid")).click();
+				Thread.sleep(2000);
+				driver.findElement(By.xpath("//option[contains(.,'Header Reference')]")).click();
+				Thread.sleep(4000);
+				driver.findElement(By.id("jqg2")).sendKeys(message2);
+				Thread.sleep(2000);
+				driver.findElement(By.id("fbox_Grid_search")).click();// find button
+				Thread.sleep(2000);
+				driver.findElement(By.xpath(".//*[@id='searchhdfbox_Grid']/a/span")).click(); // close
+																								// button
+				Thread.sleep(2000);
+				System.out.println("Voucher no: " + driver.findElement(By.xpath(".//*[@id='1']/td[3]")).getText());
+		}*/
 			}
 		}
+		}
+		
 	}
 
 	public void SearchVariableInvoice(WebDriver driver, String voucherno) throws InterruptedException {
