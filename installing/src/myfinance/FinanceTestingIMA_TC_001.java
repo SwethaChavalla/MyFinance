@@ -24,6 +24,8 @@ public class FinanceTestingIMA_TC_001 {
 	WebDriver driver = new FirefoxDriver();
 	logindetails ldr = new logindetails();
 	BookingFacilityHelper help1 = new BookingFacilityhelpdemo12();
+	FinancialVouchersHelp help2 = new FinancialVouchersDEMO12();
+	String voucherforpayment;
 	
 	
 	@Test(priority = 1, dataProvider = "logintestdata")
@@ -42,7 +44,13 @@ public class FinanceTestingIMA_TC_001 {
 	}
 	@Test(priority = 4)
 	public void FIGvoucherno() throws InterruptedException, BiffException, IOException{
-		help1.ToVerifyGeneratedVoucherno(driver);
+		String voucherno =	help1.ToVerifyGeneratedVoucherno(driver);
+		voucherforpayment = voucherno; 
+	}
+	@Test(priority = 5)
+	public void PaymentForFacilityBooked() throws InterruptedException, BiffException, IOException{
+		help2.Payment(driver, voucherforpayment);
+		
 	}
 	@DataProvider    (name = "logintestdata")
     public  Object [][] readexcel()  throws  IOException, BiffException  {
