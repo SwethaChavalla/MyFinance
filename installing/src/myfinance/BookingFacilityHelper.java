@@ -142,7 +142,7 @@ public class BookingFacilityHelper {
 			driver.findElement(By.xpath(".//*[@id='1']/td[12]/a/button")).click();
 			Thread.sleep(4000);
 			driver.findElement(By.id("Add")).click();
-			Thread.sleep(5000);
+			Thread.sleep(4000);
 			ldr.FromDate(driver, fromdate);
 			Thread.sleep(2000);
 			driver.findElement(By.id("FromTime")).clear();
