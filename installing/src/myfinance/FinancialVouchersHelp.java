@@ -16,9 +16,12 @@ import jxl.read.biff.BiffException;
 
 public class FinancialVouchersHelp {
 
+	
+	
 	// WebDriver driver = new FirefoxDriver();
 	String voucherno;
 	String advanceamount;
+	
 	String editamount1 = "400";
 	String editamount2 = "600";
 
@@ -27,6 +30,11 @@ public class FinancialVouchersHelp {
 	 * logindetails(); logd.adminlogin(driver, "DEMO_9", "DEMO_9"); }
 	 */
 	public Object[][] Payment(WebDriver driver, String voucherno) throws InterruptedException, BiffException, IOException {
+		String x = "3";
+		String y = "d";
+		
+		x=y;
+		
 		String  splitmessage[][] = new String[1][1] ;
 		Thread.sleep(4000);
 		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
@@ -86,9 +94,9 @@ public class FinancialVouchersHelp {
 		String message3 = alert.getText();
 		Thread.sleep(4000);
 		System.out.println(message3);
-		 splitmessage[0][0] = message3.split(" ")[1];
+		splitmessage[0][0] = message3.split(" ")[1];
 		Thread.sleep(4000);
-		System.out.println("Generated Payment Receipt no:"  + splitmessage);
+		System.out.println("Generated Payment Receipt no: "  + splitmessage[0][0]);
 		alert.accept();
 		Thread.sleep(2000);
 		
@@ -100,9 +108,29 @@ public class FinancialVouchersHelp {
 		System.out.println("Empty setDate");
 	}
 	
-	public String advancepayment(WebDriver driver, String url, String Block, String Flatno, String vouchertype,
-			String advanceamount, String naration, String message) throws InterruptedException {
-		driver.navigate().to(url);
+	public String advancepayment(WebDriver driver) throws InterruptedException, BiffException, IOException {
+		String advancevoucherno = null;
+		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
+		Workbook ws = Workbook.getWorkbook(fs);
+		Sheet s = ws.getSheet("AdvancePaymentData");
+		int rows = s.getRows();
+		int columns = s.getColumns();
+		String inputdata[][] = new String[rows-1][columns];
+		for (int i = 1; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				Cell cl = s.getCell(j, i);
+				inputdata[i-1][j] = cl.getContents();
+			}
+		}
+		for (int i=0; i<rows-1; i++){
+			String url = inputdata[i][0];
+			String Block = inputdata[i][1];
+			String Flatno =inputdata[i][2];
+			String vouchertype = inputdata[i][3];
+			String advanceamount = inputdata[i][4];
+			String naration = inputdata[i][5];
+			String message = inputdata[i][6];
+			driver.navigate().to(url);
 		Thread.sleep(2000);
 		driver.findElement(By.id("Payment")).click(); // payment button
 		Thread.sleep(4000);
@@ -128,14 +156,22 @@ public class FinancialVouchersHelp {
 		driver.findElement(By.id("Narration")).sendKeys(naration);
 		Thread.sleep(2000);
 		driver.findElement(By.id("btnpay")).click(); // pay button
+		Thread.sleep(2000);
 		Alert alert = driver.switchTo().alert();
+		Thread.sleep(2000);
 		String vouchermessage = alert.getText();
+		Thread.sleep(2000);
 		alert.accept();
-		String advancevoucherno = vouchermessage.split(" ")[1];
-		System.out.println(message + advancevoucherno);
+		Thread.sleep(2000);
+		String advancevoucherno1 = vouchermessage.split(" ")[1];
+		System.out.println(message  +   advancevoucherno1);
+		 advancevoucherno = advancevoucherno1;
+		}
+		System.out.println(advancevoucherno);
 		return advancevoucherno;
 	}
-
+	
+	
 	public String advancepaymentgeneral(WebDriver driver, String url, String Block, String Flat, String advanceamount,
 			String narration) throws InterruptedException {
 		driver.navigate().to(url);
@@ -168,6 +204,7 @@ public class FinancialVouchersHelp {
 	}
 
 	public void ReverseAdvance(WebDriver driver, String advancevoucherno) throws InterruptedException {
+		String reverseadvancevoucherno = null;
 		driver.navigate().to("https://test-itsmyaccount.azurewebsites.net/Voucher");
 		Thread.sleep(2000);
 		driver.findElement(By.id("RevAdv")).click();
@@ -176,9 +213,12 @@ public class FinancialVouchersHelp {
 		Thread.sleep(2000);
 		int rowcount = reversaltable.findElements(By.tagName("tr")).size();
 		System.out.println(rowcount);
+		Thread.sleep(2000);
 		loop1: for (int i = 1; i < rowcount; i++) {
 			String rowID = i + "";
-			List<WebElement> rows = reversaltable.findElement(By.xpath(".//*[@id='Grid1']/tbody")).findElements(By.id(rowID));
+			//List<WebElement> rows = reversaltable.findElement(By.xpath(".//*[@id='Grid1']/tbody")).findElements(By.id(rowID));
+			List<WebElement> rows = reversaltable.findElements(By.id(rowID));
+			Thread.sleep(2000);
 			String rowdata = rows.get(0).findElements(By.tagName("td")).get(6).getText();
 			if (rowdata.equals(advancevoucherno)) {
 				rows.get(0).findElements(By.tagName("td")).get(6).click();
@@ -186,16 +226,21 @@ public class FinancialVouchersHelp {
 				driver.findElement(By.id("Generate")).click();
 				Alert alert = driver.switchTo().alert();
 				String message = alert.getText();
-				String reverseadvancevoucherno = message.split(" ")[3];
+				 reverseadvancevoucherno = message.split(" ")[3];
 				System.out.println("Reverse advance voucher no: " + reverseadvancevoucherno);
 				alert.accept();
 				break loop1;
-			} else {
+				
+			} 
+		}
+		if (reverseadvancevoucherno == null){
 				driver.findElement(By.xpath(".//*[@id='Popup']/div/div/div[3]/div[3]/button[2]")).click();
 				System.out.println("Reversal is not possible for the voucher:" + advancevoucherno);
-			}
 		}
-	}
+		}
+		
+		
+	
 
 	public void Paymentforscenario4forcancel(WebDriver driver,String URL,String Block,String Flat, String advancevoucher, String editamount,String narration)
 			throws InterruptedException {
@@ -409,4 +454,6 @@ public class FinancialVouchersHelp {
 
 		}
 	}
+
+	
 }
