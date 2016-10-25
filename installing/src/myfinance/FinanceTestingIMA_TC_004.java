@@ -15,9 +15,9 @@ import jxl.read.biff.BiffException;
 
 public class FinanceTestingIMA_TC_004 {
 	WebDriver driver = new FirefoxDriver();
-	String splitmessage;
+	String advancevoucherno = "AFC-110000582" ;
 	logindetails ldr = new logindetails();
-	FinancialVouchersDEMO12 help2 = new FinancialVouchersDEMO12();
+	FinancialVouchersHelp help2 = new FinancialVouchersHelp();
 	
 	@Test(priority = 1, dataProvider = "logintestdata")
 	public void Login(String URL,String username, String password) throws InterruptedException {
@@ -26,7 +26,14 @@ public class FinanceTestingIMA_TC_004 {
 	}
 	@Test(priority=2)
 	public void AdvancePayment() throws BiffException, InterruptedException, IOException{
-		help2.advancepayment(driver);
+	  advancevoucherno =  help2.advancepayment(driver);
+	  System.out.println(advancevoucherno);
+	
+	
+	}
+	@Test(priority=3)
+	public void ReverseFacilityAdvance() throws InterruptedException{
+		help2.ReverseAdvance(driver, advancevoucherno);
 	}
 	@DataProvider    (name = "logintestdata")
     public  Object [][] readexcel()  throws  IOException, BiffException  {
