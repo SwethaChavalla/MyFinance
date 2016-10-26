@@ -22,18 +22,14 @@ import jxl.read.biff.BiffException;
 
 public class BookingFacilityhelpdemo12 extends BookingFacilityHelper{
 	//WebDriver driver = new FirefoxDriver();
-	int year = 2016;
-	int month = 9;
-	int day = 10;
-	
+		
 	
 	public void DueDate(WebDriver driver, String days){
 		Select duedate =new Select(driver.findElement(By.id("TypeOfDueDate")));
-		duedate.selectByIndex(2);
+		duedate.selectByIndex(0);
 		driver.findElement(By.id("DueDate")).sendKeys(days);
 	
 	}
-	
 	
 	
 	public String ToVerifyGeneratedVoucherno(WebDriver driver) throws InterruptedException {
@@ -51,9 +47,11 @@ public class BookingFacilityhelpdemo12 extends BookingFacilityHelper{
 		System.out.println("Duedate to pay amount  " + duedate);
 		String Voucherno = driver.findElement(By.xpath(".//*[@id='1']/td[3]")).getText();
 		System.out.println("Voucher No: " + Voucherno );
+		String clearedreference = driver.findElement(By.xpath(".//*[@id='1']/td[12]")).getText();
+		System.out.println("By Clearing Voucher no.s:  " + clearedreference);
 		driver.navigate().refresh();
 		return FIGvoucherno;
-	}
 	
-
+	
+	}
 }
