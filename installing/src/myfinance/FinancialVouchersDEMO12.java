@@ -10,6 +10,9 @@ import java.util.Date;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import jxl.Cell;
 import jxl.Sheet;
@@ -18,6 +21,10 @@ import jxl.read.biff.BiffException;
 
 
 public class FinancialVouchersDEMO12 extends FinancialVouchersHelp{
+	WebDriver driver = new FirefoxDriver();
+	logindetails ldr = new logindetails();
+	
+	
 	
 	int year = 2016;
 	int month = 10;
@@ -36,12 +43,18 @@ public class FinancialVouchersDEMO12 extends FinancialVouchersHelp{
 		driver.findElement(By.id("date")).sendKeys(df.format(datespecified));
 		Thread.sleep(2000);
 	}
-
-	/*@Override
-	public void setDate() {
-		// TODO Auto-generated method stub
+   
+	public void SelectTaxInProfile() throws InterruptedException{
+		driver.navigate().to("https://test-itsmyaccount.azurewebsites.net/SocietySetup/Step2/?Type=edit");
+		driver.findElement(By.id("ServiceTax")).click();
+		Thread.sleep(2000);
+		driver.findElement(By.id("ServiceTaxPercent")).sendKeys("10");
+		Thread.sleep(2000);
+		driver.findElement(By.id("btnSave")).click();
+		ldr.logout(driver);
 		
-	}*/
+		
+	}
 	
-
+	
 }
