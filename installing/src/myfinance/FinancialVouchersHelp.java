@@ -29,11 +29,7 @@ public class FinancialVouchersHelp {
 	 */
 	public Object[][] Payment(WebDriver driver, String voucherno)
 			throws InterruptedException, BiffException, IOException {
-		String x = "3";
-		String y = "d";
-
-		x = y;
-
+		
 		String splitmessage[][] = new String[1][1];
 		Thread.sleep(4000);
 		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
@@ -50,14 +46,15 @@ public class FinancialVouchersHelp {
 		}
 		for (int i = 0; i < rows - 1; i++) {
 			String url = inputdata[i][0];
-			String Block = inputdata[i][1];
-			String Flatno = inputdata[i][2];
-			String naration = inputdata[i][3];
+			String dateid = inputdata[i][1];
+			String Block = inputdata[i][2];
+			String Flatno = inputdata[i][3];
+			String naration = inputdata[i][4];
 			driver.navigate().to(url);
 			Thread.sleep(4000);
 			driver.findElement(By.id("Payment")).click();
 			Thread.sleep(4000);
-			setDate(driver);
+			setDate(driver,dateid,2016,9,26);
 			driver.findElement(By.xpath(".//*[@id='Payment']/div/div/div[2]/div[2]/div[1]/div/a/i")).click();
 			Thread.sleep(4000);
 			driver.findElement(By.linkText(Block)).click();
@@ -103,7 +100,7 @@ public class FinancialVouchersHelp {
 		return splitmessage;
 	}
 
-	public void setDate(WebDriver driver) throws InterruptedException {
+	public void setDate(WebDriver driver,String id,int year,int month,int day) throws InterruptedException {
 		System.out.println("Empty setDate");
 	}
 
@@ -123,18 +120,19 @@ public class FinancialVouchersHelp {
 		}
 		System.out.println(rows);
 		for (int i = 0; i < rows - 1; i++) {
-			System.out.println(i);
 			String url = inputdata[i][0];
-			String Block = inputdata[i][1];
-			String Flatno = inputdata[i][2];
-			String vouchertype = inputdata[i][3];
-			String advanceamount = inputdata[i][4];
-			String naration = inputdata[i][5];
-			String message = inputdata[i][6];
+			String dateid = inputdata[i][1];
+			String Block = inputdata[i][2];
+			String Flatno = inputdata[i][3];
+			String vouchertype = inputdata[i][4];
+			String advanceamount = inputdata[i][5];
+			String naration = inputdata[i][6];
+			String message = inputdata[i][7];
 			driver.navigate().to(url);
 			Thread.sleep(2000);
 			driver.findElement(By.id("Payment")).click(); // payment button
 			Thread.sleep(4000);
+			setDate(driver,dateid,2016,9,26);
 			driver.findElement(By.cssSelector("#auto_BlockID")).clear();// Block
 																		// ID
 																		// dropdown
@@ -168,9 +166,9 @@ public class FinancialVouchersHelp {
 			String advancevoucherno1 = vouchermessage.split(" ")[1];
 			System.out.println(message + advancevoucherno1);
 			advancevoucherno = advancevoucherno1;
-			System.out.println("inside loop " + advancevoucherno);
+			
 		}
-		System.out.println("outside loop " + advancevoucherno);
+		
 		return advancevoucherno;
 	}
 
@@ -191,18 +189,20 @@ public class FinancialVouchersHelp {
 		}
 		for (int i = 0; i < rows - 1; i++) {
 			String url = inputdata[i][0];
-			String Block = inputdata[i][1];
-			String Flatno = inputdata[i][2];
-			String vouchertype = inputdata[i][3];
-			String advanceamount = inputdata[i][4];
-			String naration = inputdata[i][5];
-			String message = inputdata[i][6];
+			String dateid = inputdata[i][1];
+			String Block = inputdata[i][2];
+			String Flatno = inputdata[i][3];
+			String vouchertype = inputdata[i][4];
+			String advanceamount = inputdata[i][5];
+			String naration = inputdata[i][6];
+			String message = inputdata[i][7];
 			driver.navigate().to(url);
 			Thread.sleep(2000);
 			driver.navigate().to(url);
 			Thread.sleep(2000);
 			driver.findElement(By.id("Payment")).click(); // payment button
 			Thread.sleep(4000);
+			setDate(driver,dateid,2016,9,26);
 			driver.findElement(By.cssSelector("#auto_BlockID")).clear();// Block
 																		// ID
 																		// dropdown
