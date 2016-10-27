@@ -281,7 +281,7 @@ public class FinancialVouchersHelp {
 		}
 		if (reverseadvancevoucherno == null) {
 			driver.findElement(By.xpath(".//*[@id='Popup']/div/div/div[3]/div[3]/button[2]")).click();
-			System.out.println("Reversal is not possible for the voucher:" + advancevoucherno);
+			System.out.println("Voucher does not exist in the list:" + advancevoucherno);
 		}
 		}
 	}
