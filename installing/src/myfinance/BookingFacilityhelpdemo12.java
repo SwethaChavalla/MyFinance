@@ -51,7 +51,7 @@ public class BookingFacilityhelpdemo12 extends BookingFacilityHelper{
 		System.out.println("By Clearing Voucher no.s:  " + clearedreference);
 		driver.navigate().refresh();
 		return FIGvoucherno;
+			}
 	
 	
-	}
 }
