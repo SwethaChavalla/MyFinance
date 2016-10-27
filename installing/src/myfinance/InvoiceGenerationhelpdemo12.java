@@ -21,34 +21,34 @@ import jxl.read.biff.BiffException;
 
 
 public class InvoiceGenerationhelpdemo12 extends InvoiceGenerationHelper {
-	WebDriver driver = new FirefoxDriver();
+	//WebDriver driver = new FirefoxDriver();
 
-	public void SelectTaxInProfile() throws InterruptedException, BiffException, IOException{
-		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
-		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet("ServiceTaxPercentage");
-		int rows = s.getRows();
-		int columns = s.getColumns();
-		String inputdata[][] = new String[rows - 1][columns];
-		for (int i = 1; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				Cell cl = s.getCell(j, i);
-				inputdata[i - 1][j] = cl.getContents();
-			}
-		}
-		for (int x = 0; x < rows - 1; x++) {
-			String url = inputdata[x][0];
-			String percentage = inputdata[x][1];
-		driver.navigate().to(url);
+	public void SelectTaxInProfile(WebDriver driver) throws InterruptedException, BiffException, IOException{
+		driver.findElement(By.xpath(".//*[@id='bs-example-navbar-collapse-1']/ul/li[4]/span/a")).click();
+		Thread.sleep(4000);
 		driver.findElement(By.id("ServiceTax")).click();
 		Thread.sleep(2000);
-		driver.findElement(By.id("ServiceTaxPercent")).sendKeys(percentage);
+		driver.findElement(By.id("ServiceTaxPercent")).sendKeys("10");
 		Thread.sleep(2000);
 		driver.findElement(By.id("btnSave")).click();
 		ldr.logout(driver);
 		}
-		}
+		
 	
+
+
+public void setDate(WebDriver driver,String id,int year,int month,int day) throws InterruptedException{
+	//System.out.println("setDate");
+	Calendar c = Calendar.getInstance();
+	c.set(Calendar.YEAR, year);
+	c.set(Calendar.MONTH, month);
+	c.set(Calendar.DAY_OF_MONTH, day);
+	DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+	Date datespecified = c.getTime();
+	driver.findElement(By.id(id)).clear();
+	Thread.sleep(2000);
+	driver.findElement(By.id(id)).sendKeys(df.format(datespecified));
+	Thread.sleep(2000);
 }
 
-
+}
