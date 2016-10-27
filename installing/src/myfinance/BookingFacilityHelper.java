@@ -2,6 +2,10 @@ package myfinance;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -112,11 +116,13 @@ public class BookingFacilityHelper {
 		for (int i = 0; i < rows - 1; i++) {
 			String URL1 = inputdata[i][0];
 			String facilityname1 = inputdata[i][1];
-			String fromtime1 = inputdata[i][2];
-			String totime1 = inputdata[i][3];
-			String blockno1 = inputdata[i][4];
-			String apartmentno1 = inputdata[i][5];
-			String description1 = inputdata[i][6];
+			String fromdateid = inputdata[i][2];
+			String fromtime1 = inputdata[i][3];
+			String todateid = inputdata[i][4];
+			String totime1 = inputdata[i][5];
+			String blockno1 = inputdata[i][6];
+			String apartmentno1 = inputdata[i][7];
+			String description1 = inputdata[i][8];
 			driver.navigate().to(URL1);
 			Thread.sleep(4000);
 			driver.findElement(By.id("searchgrid")).click(); // search
@@ -134,13 +140,13 @@ public class BookingFacilityHelper {
 			Thread.sleep(4000);
 			driver.findElement(By.id("Add")).click();
 			Thread.sleep(4000);
-			ldr.FromDate(driver, fromdate);
+			setDate(driver,fromdateid,2016,9,28);
 			Thread.sleep(2000);
 			driver.findElement(By.id("FromTime")).clear();
 			Thread.sleep(2000);
 			driver.findElement(By.id("FromTime")).sendKeys(fromtime1);
 			Thread.sleep(2000);
-			ldr.ToDate(driver, todate);
+			setDate(driver,todateid,2016,9,28);
 			Thread.sleep(2000);
 			driver.findElement(By.xpath(".//*[@id='FacilityBooking']/div/div[2]/div/div/div/div/div[2]")).click();
 			Thread.sleep(5000);
@@ -171,6 +177,20 @@ public class BookingFacilityHelper {
 			Thread.sleep(2000);
 			System.out.println("Facility booked successfully Invoice no. generated");
 		}
+	}
+	
+	public void setDate(WebDriver driver,String id,int year,int month,int day) throws InterruptedException{
+		//System.out.println("setDate");
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.YEAR, year);
+		c.set(Calendar.MONTH, month);
+		c.set(Calendar.DAY_OF_MONTH, day);
+		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		Date datespecified = c.getTime();
+		driver.findElement(By.id(id)).clear();
+		Thread.sleep(2000);
+		driver.findElement(By.id(id)).sendKeys(df.format(datespecified));
+		Thread.sleep(2000);
 	}
 
 	public String ToVerifyGeneratedVoucherno(WebDriver driver) throws InterruptedException, BiffException, IOException {
