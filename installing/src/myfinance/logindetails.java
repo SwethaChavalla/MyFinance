@@ -66,72 +66,10 @@ public class logindetails {
 		driver.findElement(By.xpath(".//*[@id='bs-example-navbar-collapse-1']/ul/li[5]/span/a")).click();
 	}
 	
-	public void FromDate(WebDriver driver,String dateid) throws InterruptedException, BiffException, IOException{
-		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
-		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet("FromDate");
-		int rows = s.getRows();
-		int columns = s.getColumns();
-		String inputdata[][] = new String[rows-1][columns];
-		for (int i = 1; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				Cell cl = s.getCell(j, i);
-				inputdata[i-1][j] = cl.getContents();
-			}
-		}
-		
-		for (int i = 0; i <rows-1; i++) {
-			int year = Integer.parseInt(inputdata[i][0]);
-			int month = Integer.parseInt(inputdata[i][1]);
-			int day = Integer.parseInt(inputdata[i][2]);
-			
-		Calendar c = Calendar.getInstance();
-		c.set(Calendar.YEAR, year);
-		c.set(Calendar.MONTH, month);
-		c.set(Calendar.DAY_OF_MONTH, day);
-		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-		Date datespecified = c.getTime();
-		driver.findElement(By.id(dateid)).clear();
-		Thread.sleep(2000);
-		driver.findElement(By.id(dateid)).sendKeys(df.format(datespecified));
-		Thread.sleep(2000);
-	}
-	}
 	
-	public void ToDate(WebDriver driver,String dateid) throws InterruptedException, BiffException, IOException{
-		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
-		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet("ToDate");
-		int rows = s.getRows();
-		int columns = s.getColumns();
-		String inputdata[][] = new String[rows-1][columns];
-		for (int i = 1; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				Cell cl = s.getCell(j, i);
-				inputdata[i-1][j] = cl.getContents();
-			}
-		}
-		
-		for (int i = 0; i <rows-1; i++) {
-			int year = Integer.parseInt(inputdata[i][0]);
-			int month = Integer.parseInt(inputdata[i][1]);
-			int day = Integer.parseInt(inputdata[i][2]);
-			
-		Calendar c = Calendar.getInstance();
-		c.set(Calendar.YEAR, year);
-		c.set(Calendar.MONTH, month);
-		c.set(Calendar.DAY_OF_MONTH, day);
-		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-		Date datespecified = c.getTime();
-		driver.findElement(By.id(dateid)).clear();
-		Thread.sleep(2000);
-		driver.findElement(By.id(dateid)).sendKeys(df.format(datespecified));
-		Thread.sleep(2000);
-	}
-	}
 	
-	public void SearchVoucherno(WebDriver driver, String message2) throws InterruptedException{
-		driver.navigate().to("https://test-itsmyaccount.azurewebsites.net/Voucher");
+	public void SearchVoucherno(WebDriver driver,String url,  String message2) throws InterruptedException{
+		driver.navigate().to(url);
 		Thread.sleep(2000);
 		driver.findElement(By.xpath("html/body/div[1]/div/div/div[1]/div[2]/div[1]/div/div/div/table/tbody/tr/td[3]/div/a/i")).click();
 		Thread.sleep(2000);
