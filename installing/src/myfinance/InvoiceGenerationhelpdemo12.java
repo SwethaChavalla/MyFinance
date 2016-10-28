@@ -24,15 +24,23 @@ public class InvoiceGenerationhelpdemo12 extends InvoiceGenerationHelper {
 	//WebDriver driver = new FirefoxDriver();
 
 	public void SelectTaxInProfile(WebDriver driver) throws InterruptedException, BiffException, IOException{
+		Thread.sleep(2000);
 		driver.findElement(By.xpath(".//*[@id='bs-example-navbar-collapse-1']/ul/li[4]/span/a")).click();
 		Thread.sleep(4000);
-		driver.findElement(By.id("ServiceTax")).click();
+	WebElement checkbox = driver.findElement(By.id("ServiceTax"));
+	if(!checkbox.isSelected()){
+		checkbox.click();
 		Thread.sleep(2000);
 		driver.findElement(By.id("ServiceTaxPercent")).sendKeys("10");
 		Thread.sleep(2000);
 		driver.findElement(By.id("btnSave")).click();
 		ldr.logout(driver);
 		}
+	else
+	{
+		ldr.logout(driver);
+	}
+	}
 		
 	
 
