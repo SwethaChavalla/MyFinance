@@ -85,6 +85,13 @@ public class logindetails {
 																						// button
 		Thread.sleep(2000);
 		System.out.println("Voucher no: " + driver.findElement(By.xpath(".//*[@id='1']/td[3]")).getText());
+		String clearingvoucher = driver.findElement(By.xpath(".//*[@id='1']/td[12]")).getText();
+		if(clearingvoucher != null){
+		System.out.println("By Clearing Voucher no:  " + clearingvoucher);
+	}
+		else{
+			System.out.println("There are no Clearing References");
+		}
 	}
 		
 
