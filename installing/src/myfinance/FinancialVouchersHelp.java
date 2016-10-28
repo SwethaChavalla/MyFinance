@@ -101,7 +101,7 @@ public class FinancialVouchersHelp {
 	}
 
 	public void setDate(WebDriver driver,String id,int year,int month,int day) throws InterruptedException {
-		System.out.println("Empty setDate");
+		System.out.println("Payment Date is not set so taken current date");
 	}
 
 	public String AdvancePaymentForFacility(WebDriver driver) throws InterruptedException, BiffException, IOException {
@@ -118,7 +118,7 @@ public class FinancialVouchersHelp {
 				inputdata[i - 1][j] = cl.getContents();
 			}
 		}
-		System.out.println(rows);
+		
 		for (int i = 0; i < rows - 1; i++) {
 			String url = inputdata[i][0];
 			String dateid = inputdata[i][1];
