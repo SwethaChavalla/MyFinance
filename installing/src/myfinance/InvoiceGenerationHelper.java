@@ -16,7 +16,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -72,9 +74,9 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 				Thread.sleep(2000);
 				driver.findElement(By.id("Fixed")).click();
 				Thread.sleep(2000);
-				setDate(driver,Invoicedateid,2016,9,26);
+				setDate(driver,Invoicedateid,2016,9,1);
 				Thread.sleep(2000);
-				setDate(driver,Duedateid,2016,9,26);
+				setDate(driver,Duedateid,2016,9,13);
 				Thread.sleep(2000);
 				driver.findElement(
 						By.xpath(".//*[@id='Invoice']/div[1]/div[2]/div/div[1]/div[2]/div[2]/div/div[2]/div/a/i"))
@@ -98,7 +100,9 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 				Thread.sleep(2000);
 				driver.findElement(By.id("GenInv")).click(); // generate invoice
 																// button
-				Thread.sleep(10000);
+
+				 WebDriverWait wait = new WebDriverWait(driver,30);
+				wait.until(ExpectedConditions.alertIsPresent());
 				Alert alert = driver.switchTo().alert();
 				String message = alert.getText();
 				System.out.println(message);
@@ -110,6 +114,8 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 				Thread.sleep(2000);
 				ldr.SearchVoucherno(driver,URL2,splitmessage);
 				}
+					
+		
 		return fixedvoucherno;
 }
 
@@ -157,9 +163,9 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
   				Thread.sleep(2000);
   				driver.findElement(By.id("Fixed")).click();
   				Thread.sleep(2000);
-  				setDate(driver,Invoicedateid,2016,9,26);
+  				setDate(driver,Invoicedateid,2016,9,1);
 				Thread.sleep(2000);
-				setDate(driver,Duedateid,2016,9,26);
+				setDate(driver,Duedateid,2016,9,15);
   				Thread.sleep(2000);
   				driver.findElement(
   						By.xpath(".//*[@id='Invoice']/div[1]/div[2]/div/div[1]/div[2]/div[2]/div/div[2]/div/a/i"))
@@ -183,13 +189,14 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
   				Thread.sleep(2000);
   				driver.findElement(By.id("GenInv")).click(); // generate invoice
   																// button
-  				Thread.sleep(10000);
+  				 WebDriverWait wait = new WebDriverWait(driver,30);
+ 				wait.until(ExpectedConditions.alertIsPresent());
   				Alert alert = driver.switchTo().alert();
   				String message = alert.getText();
   				System.out.println(message);
   				alert.accept();
   				String splitmessage = message.split(" ")[2];
-  				System.out.println("Maintanance fixed invoice no." + splitmessage);
+  				System.out.println("Maintanance fixed invoice no. with Service Tax  " + splitmessage);
   				Thread.sleep(2000);
   				fixedvoucherno[0][0] = splitmessage;
   				Thread.sleep(2000);
