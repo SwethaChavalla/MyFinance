@@ -54,7 +54,7 @@ public class FinancialVouchersHelp {
 			Thread.sleep(4000);
 			driver.findElement(By.id("Payment")).click();
 			Thread.sleep(4000);
-			setDate(driver,dateid,2016,9,26);
+			setDate(driver,dateid,2016,10,16);
 			driver.findElement(By.xpath(".//*[@id='Payment']/div/div/div[2]/div[2]/div[1]/div/a/i")).click();
 			Thread.sleep(4000);
 			driver.findElement(By.linkText(Block)).click();
@@ -311,17 +311,18 @@ public class FinancialVouchersHelp {
 		driver.findElement(By.id("Payment")).click();
 		Thread.sleep(3000);
 		setDate(driver,dateid,2016,9,28);
-		driver.findElement(By.xpath(".//*[@id='Payment']/div/div/div[2]/div[1]/div[3]/div/a/i")).click();//dropdown xpath
+		Thread.sleep(3000);
+		driver.findElement(By.xpath(".//*[@id='Payment']/div/div/div[2]/div[2]/div[1]/div/a/i")).click();//dropdown xpath
 		Thread.sleep(3000);
 		driver.findElement(By.linkText(Block)).click();
 		Thread.sleep(3000);
-		driver.findElement(By.xpath(".//*[@id='Payment']/div/div/div[2]/div[2]/div[1]/div/a/i")).click();// dropdown xpath
+		driver.findElement(By.xpath(".//*[@id='Payment']/div/div/div[2]/div[2]/div[2]/div/a/i")).click();// dropdown xpath
 		Thread.sleep(3000);
 		driver.findElement(By.linkText(Flat)).click();
 		Thread.sleep(3000);
 		driver.findElement(By.id("Go")).click();
 		Thread.sleep(3000);
-		WebElement paymenttable = driver.findElement(By.xpath(".//*[@id='Payment']/div/div/div[2]/div[3]/table/tbody"));
+		WebElement paymenttable = driver.findElement(By.xpath(".//*[@id='Payment']/div/div/div[2]/div[4]/table/tbody"));
 		List<WebElement> rows1 = paymenttable.findElements(By.tagName("tr"));
 		int rowscount = rows1.size();
 		for (rowscount = 0; rowscount < rows1.size(); rowscount++) {
