@@ -16,9 +16,11 @@ import jxl.read.biff.BiffException;
 public class FinanceTestingIMA_TC_004 {
 	WebDriver driver = new FirefoxDriver();
 	String advancevoucherno;
+	String voucher;
 	logindetails ldr = new logindetails();
 	BookingFacilityHelper help1 = new BookingFacilityhelpdemo12();
 	FinancialVouchersHelp help2 = new FinancialVouchersHelp();
+	InvoiceGenerationHelper help3 = new InvoiceGenerationhelpdemo12();
 
 	@Test(priority = 1, dataProvider = "logintestdata")
 	public void Login(String URL, String username, String password) throws InterruptedException {
@@ -29,7 +31,7 @@ public class FinanceTestingIMA_TC_004 {
 	@Test(priority = 2)
 	public void AdvancePaymentFacility() throws BiffException, InterruptedException, IOException {
 			advancevoucherno = help2.AdvancePaymentForFacility(driver);
-			System.out.println(advancevoucherno);
+			
 	}
 
 	
@@ -65,7 +67,27 @@ public class FinanceTestingIMA_TC_004 {
 	public void FIGvoucherno() throws InterruptedException, BiffException, IOException {
 		help1.ToVerifyGeneratedVoucherno(driver);
 	}
+	
+	@Test(priority = 9)
+	public void CheckReverseFacilityAdvance() throws InterruptedException, BiffException, IOException {
+		help2.ReverseAdvance(driver, advancevoucherno);
+	}
+	
+	
+	@Test(priority = 10)
+	public void GenerateFixedInvoice() throws BiffException, InterruptedException, IOException{
+		help3.GenerateFixedInvoiceno(driver);
+	}
 
+	@Test(priority = 11)
+	public void GenerateFixedInvoiceWithServiceTax() throws BiffException, InterruptedException, IOException{
+		voucher =	help3.GenerateFixedInvoicenoWithServiceTax(driver);
+	}
+	
+	@Test (priority = 12)
+	public void Payment() throws BiffException, InterruptedException, IOException{
+	 help2.PaymentMoreThanTotalAmount(driver, voucher);	
+	}
 	@DataProvider(name = "logintestdata")
 	public Object[][] readexcel() throws IOException, BiffException {
 		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
