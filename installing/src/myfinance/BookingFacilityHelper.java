@@ -69,7 +69,7 @@ public class BookingFacilityHelper {
 			Thread.sleep(2000);
 			driver.findElement(By.id("Amt1")).sendKeys(amount1);
 			Thread.sleep(2000);
-			//DueDate(driver, days1);
+			DueDate(driver, days1);
 			Thread.sleep(2000);
 			driver.findElement(By.xpath(".//*[@id='Facility']/div/div[3]/button[1]")).click();
 			Thread.sleep(2000);
@@ -140,13 +140,13 @@ public class BookingFacilityHelper {
 			Thread.sleep(4000);
 			driver.findElement(By.id("Add")).click();
 			Thread.sleep(4000);
-			setDate(driver,fromdateid,2016,9,29);
+			setDate(driver,fromdateid,2016,10,5);
 			Thread.sleep(2000);
 			driver.findElement(By.id("FromTime")).clear();
 			Thread.sleep(2000);
 			driver.findElement(By.id("FromTime")).sendKeys(fromtime1);
 			Thread.sleep(2000);
-			setDate(driver,todateid,2016,9,29);
+			setDate(driver,todateid,2016,10,5);
 			Thread.sleep(2000);
 			driver.findElement(By.xpath(".//*[@id='FacilityBooking']/div/div[2]/div/div/div/div/div[2]")).click();
 			Thread.sleep(5000);
@@ -163,7 +163,7 @@ public class BookingFacilityHelper {
 			driver.findElement(By.id("Description")).sendKeys(description1);
 			Thread.sleep(2000);
 			driver.findElement(By.xpath(".//*[@id='FacilityBooking']/div/div[3]/button[2]")).submit();
-			Thread.sleep(2000);
+			Thread.sleep(4000);
 			Alert alert2 = driver.switchTo().alert();
 			Thread.sleep(2000);
 			String message3 = alert2.getText();
