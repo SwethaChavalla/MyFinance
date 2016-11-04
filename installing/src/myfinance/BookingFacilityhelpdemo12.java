@@ -26,7 +26,7 @@ public class BookingFacilityhelpdemo12 extends BookingFacilityHelper{
 	
 	public void DueDate(WebDriver driver, String days){
 		Select duedate =new Select(driver.findElement(By.id("TypeOfDueDate")));
-		duedate.selectByIndex(0);
+		duedate.selectByIndex(2);
 		driver.findElement(By.id("DueDate")).sendKeys(days);
 	
 	}
