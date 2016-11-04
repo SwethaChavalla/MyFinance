@@ -101,7 +101,7 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 				driver.findElement(By.id("GenInv")).click(); // generate invoice
 																// button
 
-				 WebDriverWait wait = new WebDriverWait(driver,30);
+				 WebDriverWait wait = new WebDriverWait(driver,50);
 				wait.until(ExpectedConditions.alertIsPresent());
 				Alert alert = driver.switchTo().alert();
 				String message = alert.getText();
@@ -127,9 +127,7 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
     	  System.out.println("Taken Current Date");
       }
       
-      public Object[][] GenerateFixedInvoicenoWithServiceTax(WebDriver driver) throws InterruptedException, BiffException, IOException {
-  		
-  		Thread.sleep(2000);
+      public String GenerateFixedInvoicenoWithServiceTax(WebDriver driver) throws InterruptedException, BiffException, IOException {
   		String[][] fixedvoucherno = new String[1][1];
   		String URL1 = "https://test-itsmyaccount.azurewebsites.net/login";
   		String username = "DEMO_12";
@@ -189,7 +187,7 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
   				Thread.sleep(2000);
   				driver.findElement(By.id("GenInv")).click(); // generate invoice
   																// button
-  				 WebDriverWait wait = new WebDriverWait(driver,30);
+  				 WebDriverWait wait = new WebDriverWait(driver,50);
  				wait.until(ExpectedConditions.alertIsPresent());
   				Alert alert = driver.switchTo().alert();
   				String message = alert.getText();
@@ -202,7 +200,8 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
   				Thread.sleep(2000);
   				ldr.SearchVoucherno(driver,URL2,splitmessage);
   				}
-  		return fixedvoucherno;
+  		String voucher = fixedvoucherno[0][0];
+  		return voucher;
   }
 
 	
