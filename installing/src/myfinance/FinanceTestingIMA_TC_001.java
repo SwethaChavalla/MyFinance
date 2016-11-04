@@ -18,14 +18,15 @@ import jxl.read.biff.BiffException;
 
 /* In this scenario first we are adding Facility in AddFacility() method and booking facility in BookFacility() method
 here to get voucher no FIG--- we are using GetFIGvoucher() and for paying amount for booked facility we are using 
-PayingFIGvoucher()method.*/
+PayingFIGvoucher()method. Before running this script set date in BookFacility method and in Payment method class,
+and all urls in sheet.*/
 
 public class FinanceTestingIMA_TC_001 {
 	WebDriver driver = new FirefoxDriver();
 	logindetails ldr = new logindetails();
-	BookingFacilityHelper help1 = new BookingFacilityhelpdemo12();
-	FinancialVouchersHelp help2 = new FinancialVouchersDEMO12();
-	String voucherforpayment;
+	BookingFacilityHelper help1 = new BookingFacilityhelpDEMO10();
+	FinancialVouchersHelp help2 = new FinancialVouchersDEMO10();
+	String voucherno;
 	
 	
 	@Test(priority = 1, dataProvider = "logintestdata")
@@ -42,14 +43,14 @@ public class FinanceTestingIMA_TC_001 {
 	public void Bookfacility() throws BiffException, InterruptedException, IOException{
 		help1.BookFacility(driver);
 	}
-	@Test(priority = 4)
+	@Test(priority = 4, dependsOnMethods = "Bookfacility")
 	public void FIGvoucherno() throws InterruptedException, BiffException, IOException{
-		String voucherno =	help1.ToVerifyGeneratedVoucherno(driver);
-		voucherforpayment = voucherno; 
+		 voucherno =help1.ToVerifyGeneratedVoucherno(driver);
+		 
 	}
-	@Test(priority = 5)
+	@Test(priority = 5, dependsOnMethods="FIGvoucherno")
 	public void PaymentForFacilityBooked() throws InterruptedException, BiffException, IOException{
-		help2.Payment(driver, voucherforpayment);
+		help2.Payment(driver, voucherno);
 		
 	}
 	@DataProvider    (name = "logintestdata")
