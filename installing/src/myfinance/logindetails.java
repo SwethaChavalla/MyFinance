@@ -84,14 +84,17 @@ public class logindetails {
 		driver.findElement(By.xpath(".//*[@id='searchhdfbox_Grid']/a/span")).click(); // close
 																						// button
 		Thread.sleep(2000);
+		System.out.println("Due Date  " + driver.findElement(By.xpath(".//*[@id='1']/td[11]")).getText());
 		System.out.println("Voucher no: " + driver.findElement(By.xpath(".//*[@id='1']/td[3]")).getText());
 		String clearingvoucher = driver.findElement(By.xpath(".//*[@id='1']/td[12]")).getText();
-		if(clearingvoucher != null){
+		if(clearingvoucher == null){
 		System.out.println("By Clearing Voucher no:  " + clearingvoucher);
 	}
 		else{
 			System.out.println("There are no Clearing References");
 		}
+		
+		
 	}
 		
 
