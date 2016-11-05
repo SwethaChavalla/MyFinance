@@ -14,7 +14,8 @@ import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 /* Here in this scenario we are generating a Fixed Invoice by using FixedInvoiceGenerationWithDates() method 
- * and reversing the same invoice by using ReverseFixedInvoice() method.  */
+ * and reversing the same invoice by using ReverseFixedInvoice() method. Before running this script set date
+ * in GenerateFixedInvoiceno and GenerateFixedInvoicenoForTenant.  */
 
 
 
@@ -22,7 +23,7 @@ public class FinanceTestingIMA_TC_002 {
 WebDriver driver = new FirefoxDriver();
 String splitmessage;
 logindetails ldr = new logindetails();
-InvoiceGenerationHelper help1 = new InvoiceGenerationHelper();
+InvoiceGenerationHelper help1 = new InvoiceGenerationHelpDEMO10();
 
 @Test(priority = 1, dataProvider = "logintestdata")
 public void Login(String URL,String username, String password) throws InterruptedException {
@@ -34,7 +35,12 @@ public Object[][] FixedInvoiceGenerationWithDates() throws BiffException, Interr
 	 return help1.GenerateFixedInvoiceno(driver);
 	
 }
-@Test(priority=2,dataProvider="FixedInvoiceno")
+@Test (priority=2)
+public void GenerateFixedInvoiceTenant() throws BiffException, InterruptedException, IOException{
+	help1.GenerateFixedInvoicenoForTenant(driver);
+}
+
+@Test(priority=3,dataProvider="FixedInvoiceno")
 public void ReverseFixedInvoice(String splitmessage) throws InterruptedException, BiffException, IOException{
 	help1.ReverseInvoice(driver, splitmessage);
 }
