@@ -33,15 +33,7 @@ public class InvoiceGenerationHelper {
 	logindetails ldr = new logindetails();
 	//String fromdate = "InvoiceDate";
 	//String todate = "DueDate";
-	String splitmessge;
-	 
-
-	/*
-	 * public void generateinvoice() throws InterruptedException { logindetails
-	 * logd = new logindetails(); logd.adminlogin(driver, "DEMO_9", "DEMO_9");
-	 * driver.navigate().to("https://www.itsmyaccount.com/Invoice");
-	 * Thread.sleep(2000); }
-	 */
+	String splitmessge;	 
 
 public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedException, BiffException, IOException {
 		
@@ -74,9 +66,9 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 				Thread.sleep(2000);
 				driver.findElement(By.id("Fixed")).click();
 				Thread.sleep(2000);
-				setDate(driver,Invoicedateid,2016,9,1);
+				setDate(driver,Invoicedateid,2016,10,1);
 				Thread.sleep(2000);
-				setDate(driver,Duedateid,2016,9,13);
+				setDate(driver,Duedateid,2016,10,13);
 				Thread.sleep(2000);
 				driver.findElement(
 						By.xpath(".//*[@id='Invoice']/div[1]/div[2]/div/div[1]/div[2]/div[2]/div/div[2]/div/a/i"))
@@ -127,11 +119,87 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
     	  System.out.println("Taken Current Date");
       }
       
+      public Object[][] GenerateFixedInvoicenoForTenant(WebDriver driver) throws InterruptedException, BiffException, IOException {
+  		
+  		Thread.sleep(2000);
+  		String[][] fixedvoucherno = new String[1][1];
+  		Thread.sleep(4000);
+  		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
+  		Workbook ws = Workbook.getWorkbook(fs);
+  		Sheet s = ws.getSheet("FixedInvoiceGenerationTenant");
+  		int rows = s.getRows();
+  		int columns = s.getColumns();
+  		String inputdata[][] = new String[rows-1][columns];
+  		for (int i = 1; i < rows; i++) {
+  			for (int j = 0; j < columns; j++) {
+  				Cell cl = s.getCell(j, i);
+  				inputdata[i-1][j] = cl.getContents();
+  			}
+  		}
+  		for (int i = 0; i < rows-1; i++) {
+  			Thread.sleep(2000);
+  				String URL = inputdata[i][0];
+  				String Invoicedateid = inputdata[i][1];
+  				String Duedateid = inputdata[i][2];
+  				String apartment = inputdata[i][3];
+  				String Block = inputdata[i][4];
+  				String amount = inputdata[i][5];
+  				String narration = inputdata[i][6];
+  				String URL2 = inputdata[i][7];
+  				driver.navigate().to(URL);
+  				Thread.sleep(2000);
+  				driver.findElement(By.id("Fixed")).click();
+  				Thread.sleep(2000);
+  				setDate(driver,Invoicedateid,2016,10,1);
+  				Thread.sleep(2000);
+  				setDate(driver,Duedateid,2016,10,11);
+  				Thread.sleep(2000);
+  				driver.findElement(
+  						By.xpath(".//*[@id='Invoice']/div[1]/div[2]/div/div[1]/div[2]/div[2]/div/div[2]/div/a/i"))
+  						.click();
+  				Thread.sleep(4000);
+  				driver.findElement(By.linkText(apartment)).click();
+  				Thread.sleep(2000);
+  				driver.findElement(
+  						By.id("auto_ApartmentID")).sendKeys(Block);
+  				Thread.sleep(2000);
+  				driver.findElement(By.id("BAT1")).clear();
+  					Thread.sleep(2000);
+  					driver.findElement(By.id("BAT1")).sendKeys(amount);// basic
+  																		// amount
+  					Thread.sleep(2000);
+  				driver.findElement(By.id("x1")).sendKeys(narration);// narration
+  				Thread.sleep(2000);
+  				driver.findElement(By.id("Gen")).click(); // Generate button
+  				Thread.sleep(5000);
+  				driver.findElement(By.id("Generate")).click();// yes button
+  				Thread.sleep(2000);
+  				driver.findElement(By.id("GenInv")).click(); // generate invoice
+  																// button
+
+  				 WebDriverWait wait = new WebDriverWait(driver,50);
+  				wait.until(ExpectedConditions.alertIsPresent());
+  				Alert alert = driver.switchTo().alert();
+  				String message = alert.getText();
+  				System.out.println(message);
+  				alert.accept();
+  				String splitmessage = message.split(" ")[2];
+  				System.out.println("Maintanance fixed invoice no." + splitmessage);
+  				Thread.sleep(2000);
+  				fixedvoucherno[0][0] = splitmessage;
+  				Thread.sleep(2000);
+  				ldr.SearchVoucherno(driver,URL2,splitmessage);
+  				}
+  					
+  		
+  		return fixedvoucherno;
+  }
+      
       public String GenerateFixedInvoicenoWithServiceTax(WebDriver driver) throws InterruptedException, BiffException, IOException {
   		String[][] fixedvoucherno = new String[1][1];
-  		String URL1 = "https://test-itsmyaccount.azurewebsites.net/login";
-  		String username = "DEMO_12";
-  		String password = "Welcome";
+  		String URL1 = "https://www.itsmyaccount.com/login/";
+  		String username = "DEMO_10";
+  		String password = "DEMO_10";
   		Thread.sleep(4000);
   		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
   		Workbook ws = Workbook.getWorkbook(fs);
@@ -294,14 +362,15 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 			String Block = inputdata[i][4];
 			String amount = inputdata[i][5];
 			String narration = inputdata[i][6];
+			String url2 = inputdata[i][7];
 			Thread.sleep(2000);
 			driver.navigate().to(URL);
 		Thread.sleep(2000);
 		driver.findElement(By.id("Variable")).click();
 		Thread.sleep(2000);
-		setDate(driver,Invoicedateid,2016,9,26);
+		setDate(driver,Invoicedateid,2016,10,2);
 		Thread.sleep(2000);
-		setDate(driver,Duedateid,2016,9,26);
+		setDate(driver,Duedateid,2016,10,16);
 		Thread.sleep(2000);
 		driver.findElement(By.xpath(".//*[@id='INV']/div[1]/div[2]/div/div[1]/div[2]/div[2]/div/div[2]/div/a/i"))
 				.click(); // BlockID dropdown
@@ -328,7 +397,8 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 		alert.accept();
 		Thread.sleep(2000);
 		driver.findElement(By.id("GenInv")).click();// generate button
-		Thread.sleep(3000);
+		WebDriverWait wait = new WebDriverWait(driver,50);
+		wait.until(ExpectedConditions.alertIsPresent());
 		Alert alert1 = driver.switchTo().alert();
 		Thread.sleep(2000);
 		String message1 = alert1.getText();
@@ -342,6 +412,7 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 		System.out.println("Generated Adhoc Invoice no: "   +  splitmessage);
 		Thread.sleep(2000);
 		voucherno[0][0] = splitmessage;
+		ldr.SearchVoucherno(driver, url2, splitmessage);
 		}
 		return voucherno;
 	}
