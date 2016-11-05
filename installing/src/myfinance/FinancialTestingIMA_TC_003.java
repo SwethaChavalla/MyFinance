@@ -20,24 +20,23 @@ public class FinancialTestingIMA_TC_003 {
 	WebDriver driver = new FirefoxDriver();
 	String splitmessage;
 	logindetails ldr = new logindetails();
-	InvoiceGenerationHelper help1 = new InvoiceGenerationhelpdemo12();
-	FinancialVouchersHelp help2 = new FinancialVouchersDEMO12();
+	InvoiceGenerationHelper help1 = new InvoiceGenerationHelpDEMO10();
+	FinancialVouchersHelp help2 = new FinancialVouchersDEMO10();
 	
 	@Test(priority = 1, dataProvider = "logintestdata")
 	public void Login(String URL,String username, String password) throws InterruptedException {
 		ldr.adminlogin(driver,URL, username, password);
 		Thread.sleep(2000);
 	}
-	@DataProvider(name = "VariableInvoice")
+	@DataProvider (name = "VariableInvoice")
 	public Object[][] VariableInvoiceGeneration() throws BiffException, InterruptedException, IOException{
 		return help1.GenerateVariableInvoice(driver);
 		
 	}
 	
 	@Test(priority =2,dataProvider = "VariableInvoice")
-	public void PayVariableInvoice(String url,String splitmessage) throws InterruptedException, BiffException, IOException{
-		ldr.SearchVoucherno(driver,url, splitmessage);
-		help2.Payment(driver, splitmessage);
+	public void PayVariableInvoice(String splitmessage) throws InterruptedException, BiffException, IOException{
+			help2.Payment(driver, splitmessage);
 		
 	}
 	
