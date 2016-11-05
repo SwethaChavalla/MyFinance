@@ -14,13 +14,16 @@ import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 public class FinanceTestingIMA_TC_004 {
+	/* Before running this script change url in GenerateFixedInvoiceWithServiceTax method. Change Facility name in
+	 *  Add Facility and Book Facility, booking date in Book Facility, change amount in GenerateFixedInvoiceno
+	 * and set date in GenerateFixedInvoicenoWithServiceTax and GenerateFixedInvoiceno and urls asusal. */
 	WebDriver driver = new FirefoxDriver();
 	String advancevoucherno;
 	String voucher;
 	logindetails ldr = new logindetails();
-	BookingFacilityHelper help1 = new BookingFacilityhelpdemo12();
+	BookingFacilityHelper help1 = new BookingFacilityhelpDEMO10();
 	FinancialVouchersHelp help2 = new FinancialVouchersHelp();
-	InvoiceGenerationHelper help3 = new InvoiceGenerationhelpdemo12();
+	InvoiceGenerationHelper help3 = new InvoiceGenerationHelpDEMO10();
 
 	@Test(priority = 1, dataProvider = "logintestdata")
 	public void Login(String URL, String username, String password) throws InterruptedException {
