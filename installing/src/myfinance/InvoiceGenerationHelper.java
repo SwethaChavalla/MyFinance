@@ -31,37 +31,10 @@ import jxl.read.biff.BiffException;
 public class InvoiceGenerationHelper {
 	// WebDriver driver = new FirefoxDriver();
 	logindetails ldr = new logindetails();
-	//String fromdate = "InvoiceDate";
-	//String todate = "DueDate";
 	String splitmessge;	 
 
-public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedException, BiffException, IOException {
-		
-		Thread.sleep(2000);
-		String[][] fixedvoucherno = new String[1][1];
-		Thread.sleep(4000);
-		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
-		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet("FixedInvoiceGeneration");
-		int rows = s.getRows();
-		int columns = s.getColumns();
-		String inputdata[][] = new String[rows-1][columns];
-		for (int i = 1; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				Cell cl = s.getCell(j, i);
-				inputdata[i-1][j] = cl.getContents();
-			}
-		}
-		for (int i = 0; i < rows-1; i++) {
-			Thread.sleep(2000);
-				String URL = inputdata[i][0];
-				String Invoicedateid = inputdata[i][1];
-				String Duedateid = inputdata[i][2];
-				String apartment = inputdata[i][3];
-				String Block = inputdata[i][4];
-				String amount = inputdata[i][5];
-				String narration = inputdata[i][6];
-				String URL2 = inputdata[i][7];
+public String GenerateFixedInvoiceno(WebDriver driver,String URL,String Invoicedateid,String Duedateid,String apartment
+		,String Block,String amount,String narration,String URL2) throws InterruptedException, BiffException, IOException {
 				driver.navigate().to(URL);
 				Thread.sleep(2000);
 				driver.findElement(By.id("Fixed")).click();
@@ -102,13 +75,10 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 				String splitmessage = message.split(" ")[2];
 				System.out.println("Maintanance fixed invoice no." + splitmessage);
 				Thread.sleep(2000);
-				fixedvoucherno[0][0] = splitmessage;
+				String fixedvoucherno = splitmessage;
 				Thread.sleep(2000);
 				ldr.SearchVoucherno(driver,URL2,splitmessage);
-				}
-					
-		
-		return fixedvoucherno;
+				return fixedvoucherno;
 }
 
       public void SelectTaxInProfile(WebDriver driver) throws InterruptedException, BiffException, IOException{
@@ -119,34 +89,9 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
     	  System.out.println("Taken Current Date");
       }
       
-      public Object[][] GenerateFixedInvoicenoForTenant(WebDriver driver) throws InterruptedException, BiffException, IOException {
-  		
-  		Thread.sleep(2000);
-  		String[][] fixedvoucherno = new String[1][1];
-  		Thread.sleep(4000);
-  		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
-  		Workbook ws = Workbook.getWorkbook(fs);
-  		Sheet s = ws.getSheet("FixedInvoiceGenerationTenant");
-  		int rows = s.getRows();
-  		int columns = s.getColumns();
-  		String inputdata[][] = new String[rows-1][columns];
-  		for (int i = 1; i < rows; i++) {
-  			for (int j = 0; j < columns; j++) {
-  				Cell cl = s.getCell(j, i);
-  				inputdata[i-1][j] = cl.getContents();
-  			}
-  		}
-  		for (int i = 0; i < rows-1; i++) {
-  			Thread.sleep(2000);
-  				String URL = inputdata[i][0];
-  				String Invoicedateid = inputdata[i][1];
-  				String Duedateid = inputdata[i][2];
-  				String apartment = inputdata[i][3];
-  				String Block = inputdata[i][4];
-  				String amount = inputdata[i][5];
-  				String narration = inputdata[i][6];
-  				String URL2 = inputdata[i][7];
-  				driver.navigate().to(URL);
+      public String GenerateFixedInvoicenoForTenant(WebDriver driver,String URL,String Invoicedateid,String Duedateid,String apartment
+    			,String Block,String amount,String narration,String URL2) throws InterruptedException, BiffException, IOException {
+  			driver.navigate().to(URL);
   				Thread.sleep(2000);
   				driver.findElement(By.id("Fixed")).click();
   				Thread.sleep(2000);
@@ -186,13 +131,10 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
   				String splitmessage = message.split(" ")[2];
   				System.out.println("Maintanance fixed invoice no." + splitmessage);
   				Thread.sleep(2000);
-  				fixedvoucherno[0][0] = splitmessage;
+  				String fixedvoucherno = splitmessage;
   				Thread.sleep(2000);
   				ldr.SearchVoucherno(driver,URL2,splitmessage);
-  				}
-  					
-  		
-  		return fixedvoucherno;
+  		  		return fixedvoucherno;
   }
       
       public String GenerateFixedInvoicenoWithServiceTax(WebDriver driver) throws InterruptedException, BiffException, IOException {
@@ -273,26 +215,8 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
   }
 
 	
-	public void ReverseInvoice(WebDriver driver, String splitmessage) throws InterruptedException, BiffException, IOException {
-     //String[][] fixedvoucherno = new String[1][1];
-		
-		
-		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
-		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet("ReverseInvoiceURL");
-		int rows = s.getRows();
-		int columns = s.getColumns();
-		String inputdata[][] = new String[rows-1][columns];
-		for (int i = 1; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				Cell cl = s.getCell(j, i);
-				inputdata[i-1][j] = cl.getContents();
-			}
-		}
-		for (int i = 0; i < rows-1; i++) {
-			String URL = inputdata[i][0];
-			String URL2 = inputdata[i][1];
-		driver.navigate().to(URL);
+	public void ReverseInvoice(WebDriver driver,String URL, String splitmessage,String dateid,String URL2) throws InterruptedException, BiffException, IOException {
+    	driver.navigate().to(URL);
 		Thread.sleep(4000);
 		driver.findElement(By.id("Reversal")).click();
 		Thread.sleep(4000);
@@ -314,6 +238,7 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 				driver.findElement(By.xpath(".//*[@id='subform']/form/div[1]/div[3]/button")).click();// reverse
 																										// button
 				Thread.sleep(4000);
+				setDate(driver,dateid,2016,10,6);
 				driver.findElement(By.id("Reason")).sendKeys("reversing amount for Invoice" + splitmessage);
 				Thread.sleep(4000);
 				driver.findElement(By.id("Generate")).click(); // reverse button
@@ -336,35 +261,12 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 		}
 		}
 		
-	}
+	
 
 	
-	public Object[][] GenerateVariableInvoice(WebDriver driver) throws InterruptedException, BiffException, IOException{
-		String[][] voucherno = new String[1][1];
-		Thread.sleep(4000);
-		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
-		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet("AdhocInvoiceData");
-		int rows = s.getRows();
-		int columns = s.getColumns();
-		String inputdata[][] = new String[rows-1][columns];
-		for (int i = 1; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				Cell cl = s.getCell(j, i);
-				inputdata[i-1][j] = cl.getContents();
-			}
-		}
-		for (int i=0; i<rows-1; i++){
-			String URL = inputdata[i][0];
-			String Invoicedateid = inputdata[i][1];
-			String Duedateid = inputdata[i][2];
-			String apartment = inputdata[i][3];
-			String Block = inputdata[i][4];
-			String amount = inputdata[i][5];
-			String narration = inputdata[i][6];
-			String url2 = inputdata[i][7];
-			Thread.sleep(2000);
-			driver.navigate().to(URL);
+	public String GenerateVariableInvoice(WebDriver driver,String URL,String Invoicedateid,String Duedateid,
+			String apartment,String Block,String amount,String narration,String url2) throws InterruptedException, BiffException, IOException{
+		driver.navigate().to(URL);
 		Thread.sleep(2000);
 		driver.findElement(By.id("Variable")).click();
 		Thread.sleep(2000);
@@ -411,9 +313,8 @@ public Object[][] GenerateFixedInvoiceno(WebDriver driver) throws InterruptedExc
 		Thread.sleep(2000);
 		System.out.println("Generated Adhoc Invoice no: "   +  splitmessage);
 		Thread.sleep(2000);
-		voucherno[0][0] = splitmessage;
+		String voucherno = splitmessage;
 		ldr.SearchVoucherno(driver, url2, splitmessage);
-		}
 		return voucherno;
 	}
 
