@@ -16,25 +16,7 @@ import jxl.read.biff.BiffException;
 
 public class GLAccounts {
 		
-	public String Add(WebDriver driver) throws BiffException, IOException, InterruptedException{
-		String[][] accname = new String[1][1];
-		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
-		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet("GLAccounts");
-		int rows = s.getRows();
-		int columns = s.getColumns();
-		String inputdata[][] = new String[rows-1][columns];
-		for (int i = 1; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				Cell cl = s.getCell(j, i);
-				inputdata[i-1][j] = cl.getContents();
-			}
-		}
-		for (int i = 0; i < rows-1; i++) {
-			String url = inputdata[i][0];
-			String accountname = inputdata[i][1];
-			String description = inputdata[i][2];
-			String ledgergroup = inputdata[i][3];
+	public String Add(WebDriver driver,String url,String accountname,String description,String ledgergroup) throws BiffException, IOException, InterruptedException{
 			driver.navigate().to(url);
 			Thread.sleep(3000);
 			driver.findElement(By.id("Add")).click();
@@ -48,12 +30,10 @@ public class GLAccounts {
 		driver.findElement(By.xpath(".//*[@id='Ledger']/div/div[3]/button[1]")).click();//Save button
 		driver.findElement(By.xpath(".//*[@id='Ledger']/div/div[3]/button[1]")).click();
 		Thread.sleep(2000);
-		accname[0][0] =accountname;
+		String accname =accountname;
 		String verify = "Ledger List";
 		Assert.assertEquals("Ledger List",verify);
-		}
-		String retname = accname[0][0];
-		return retname;
+		return accname;
 	}
 	public void search(WebDriver driver,String accountname) throws InterruptedException{
 		driver.navigate().to("https://www.itsmyaccount.com/Ledger");
@@ -70,26 +50,9 @@ public class GLAccounts {
 																						// button
 		Thread.sleep(2000);
 	}
-	public String Edit(WebDriver driver,String searchvalue) throws InterruptedException, BiffException, IOException{
-		String[][] accname = new String[1][1];
-		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
-		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet("GLAccountsEdit");
-		int rows = s.getRows();
-		int columns = s.getColumns();
-		String inputdata[][] = new String[rows-1][columns];
-		for (int i = 1; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				Cell cl = s.getCell(j, i);
-				inputdata[i-1][j] = cl.getContents();
-			}
-		}
-		for (int i = 0; i < rows-1; i++) {
-			String url = inputdata[i][0];
-			String accountname = inputdata[i][1];
-			String description = inputdata[i][2];
-			String ledgergroup = inputdata[i][3];
+	public String Edit(WebDriver driver,String url,String searchvalue,String accountname,String description,String ledgergroup) throws InterruptedException, BiffException, IOException{
 		driver.navigate().to(url);
+		Thread.sleep(2000);
 		driver.findElement(By.id("searchgrid")).click();
 		Thread.sleep(2000);
 		driver.findElement(By.xpath("//option[contains(.,'Account Name')]")).click();
@@ -120,17 +83,18 @@ public class GLAccounts {
 		driver.findElement(By.xpath(".//*[@id='Ledger']/div/div[3]/button[1]")).click();//Save button
 		driver.findElement(By.xpath(".//*[@id='Ledger']/div/div[3]/button[1]")).click();
 		Thread.sleep(2000);
-		accname[0][0] =accountname;
+		String accname =accountname;
 		System.out.println("Account name " +  searchvalue  +  "is changed to " +  accountname);
 		String verify = "Ledger List";
 		Assert.assertEquals("Ledger List",verify);
-		}
-		String retname = accname[0][0];
-		return retname;
+		return accname;
 		}	
 	
-	public void Delete(WebDriver driver,String deletevalue) throws InterruptedException{
+	public void Delete(WebDriver driver,String url,String deletevalue) throws InterruptedException{
+		driver.navigate().to(url);
+		Thread.sleep(2000);
 		driver.findElement(By.id("searchgrid")).click();
+		Thread.sleep(2000);
 		driver.findElement(By.id("jqg1")).clear();
 		Thread.sleep(2000);
 		driver.findElement(By.id("jqg1")).sendKeys(deletevalue);
