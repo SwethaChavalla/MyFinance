@@ -28,15 +28,17 @@ public class FinancialTestingIMA_TC_003 {
 		ldr.adminlogin(driver,URL, username, password);
 		Thread.sleep(2000);
 	}
-	@DataProvider (name = "VariableInvoice")
-	public Object[][] VariableInvoiceGeneration() throws BiffException, InterruptedException, IOException{
-		return help1.GenerateVariableInvoice(driver);
+	@Test (priority = 2,dataProvider = "VariableInvoice")
+	public void VariableInvoiceGeneration(String URL,String Invoicedateid,String Duedateid,
+			String apartment,String Block,String amount,String narration,String url2) throws BiffException, InterruptedException, IOException{
+	 splitmessage =	 help1.GenerateVariableInvoice(driver,URL, Invoicedateid, Duedateid,
+				 apartment, Block, amount, narration, url2);
 		
 	}
 	
-	@Test(priority =2,dataProvider = "VariableInvoice")
-	public void PayVariableInvoice(String splitmessage) throws InterruptedException, BiffException, IOException{
-			help2.Payment(driver, splitmessage);
+	@Test(priority =3,dataProvider = "Payment")
+	public void PayVariableInvoice(String url,String dateid, String Block,  String Flatno, String narration) throws InterruptedException, BiffException, IOException{
+			help2.Payment(driver,url, dateid,  Block,  Flatno, splitmessage,  narration);
 		
 	}
 	
@@ -45,6 +47,42 @@ public class FinancialTestingIMA_TC_003 {
 	   File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
 	    Workbook ws= Workbook.getWorkbook(fs);
 	    Sheet s = ws.getSheet("Logindata");
+	    int rows = s.getRows();
+	    int columns = s.getColumns();
+	    String inputdata [][]= new String [rows-1][columns]; 
+	    for (int i=1; i<rows; i++){
+	        for (int j=0; j<columns; j++){
+	            Cell cl = s.getCell(j,i);
+	            inputdata [i-1][j] = cl.getContents();
+	                  
+	        }
+	    }
+	            return inputdata;
+	}
+	
+	@DataProvider    (name = "VariableInvoice")
+	public  Object [][] readexcel1()  throws  IOException, BiffException  {
+	   File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/FinanceTestingIMA_TC_003.xls");
+	    Workbook ws= Workbook.getWorkbook(fs);
+	    Sheet s = ws.getSheet("VariableInvoiceGeneration");
+	    int rows = s.getRows();
+	    int columns = s.getColumns();
+	    String inputdata [][]= new String [rows-1][columns]; 
+	    for (int i=1; i<rows; i++){
+	        for (int j=0; j<columns; j++){
+	            Cell cl = s.getCell(j,i);
+	            inputdata [i-1][j] = cl.getContents();
+	                  
+	        }
+	    }
+	            return inputdata;
+	}
+	
+	@DataProvider    (name = "Payment")
+	public  Object [][] readexcel2()  throws  IOException, BiffException  {
+	   File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/FinanceTestingIMA_TC_003.xls");
+	    Workbook ws= Workbook.getWorkbook(fs);
+	    Sheet s = ws.getSheet("Payment");
 	    int rows = s.getRows();
 	    int columns = s.getColumns();
 	    String inputdata [][]= new String [rows-1][columns]; 
