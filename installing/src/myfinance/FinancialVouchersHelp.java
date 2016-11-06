@@ -27,48 +27,25 @@ public class FinancialVouchersHelp {
 	 * public void login() throws InterruptedException { logindetails logd = new
 	 * logindetails(); logd.adminlogin(driver, "DEMO_9", "DEMO_9"); }
 	 */
-	public Object[][] Payment(WebDriver driver, String voucherno)
+	public String Payment(WebDriver driver,String url,String dateid, String Block,String Flatno, String voucherno, String narration)
 			throws InterruptedException, BiffException, IOException {
 		
-		String splitmessage[][] = new String[1][1];
-		Thread.sleep(4000);
-		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
-		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet("Payment");
-		int rows = s.getRows();
-		int columns = s.getColumns();
-		String inputdata[][] = new String[rows - 1][columns];
-		for (int i = 1; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				Cell cl = s.getCell(j, i);
-				inputdata[i - 1][j] = cl.getContents();
-			}
-		}
-		for (int i = 0; i < rows - 1; i++) {
-			String url = inputdata[i][0];
-			String dateid = inputdata[i][1];
-			String Block = inputdata[i][2];
-			String Flatno = inputdata[i][3];
-			String naration = inputdata[i][4];
 			driver.navigate().to(url);
 			Thread.sleep(4000);
 			driver.findElement(By.id("Payment")).click();
 			Thread.sleep(4000);
-			setDate(driver,dateid,2016,10,16);
+			setDate(driver,dateid,2016,10,6);
 			driver.findElement(By.xpath(".//*[@id='Payment']/div/div/div[2]/div[2]/div[1]/div/a/i")).click();
 			Thread.sleep(4000);
 			driver.findElement(By.linkText(Block)).click();
 			Thread.sleep(4000);
 			driver.findElement(By.xpath(".//*[@id='Payment']/div/div/div[2]/div[2]/div[2]/div/a/i")).click();
-			// *[@id='Payment']/div/div/div[2]/div[2]/div[2]/div/a/i
 			Thread.sleep(4000);
 			driver.findElement(By.linkText(Flatno)).click();
 			Thread.sleep(4000);
 			driver.findElement(By.id("Go")).click();
 			Thread.sleep(4000);
 			WebElement paymenttable = driver.findElement(By.xpath(".//*[@id='Payment']/div/div/div[2]/div[4]"));
-			// *[@id='Payment']/div/div/div[2]/div[4]/table/tbody
-			// *[@id='Payment']/div/div/div[2]/div[3]/table/tbody
 			List<WebElement> rows1 = paymenttable.findElements(By.tagName("tr"));
 			int rowscount = rows1.size();
 			for (rowscount = 1; rowscount < rows1.size(); rowscount++) {
@@ -81,7 +58,7 @@ public class FinancialVouchersHelp {
 				}
 			}
 			Thread.sleep(4000);
-			driver.findElement(By.id("Narration")).sendKeys(naration);
+			driver.findElement(By.id("Narration")).sendKeys(narration);
 			Thread.sleep(4000);
 			driver.findElement(By.id("btnpay")).click();
 			Thread.sleep(4000);
@@ -90,14 +67,12 @@ public class FinancialVouchersHelp {
 			String message3 = alert.getText();
 			Thread.sleep(4000);
 			System.out.println(message3);
-			splitmessage[0][0] = message3.split(" ")[1];
+			String splitmessage = message3.split(" ")[1];
 			Thread.sleep(4000);
-			System.out.println("Generated Payment Receipt no: " + splitmessage[0][0]);
+			System.out.println("Generated Payment Receipt no: " + splitmessage);
 			alert.accept();
 			Thread.sleep(2000);
-
-		}
-		return splitmessage;
+     		return splitmessage;
 	}
 
 	public void setDate(WebDriver driver,String id,int year,int month,int day) throws InterruptedException {
