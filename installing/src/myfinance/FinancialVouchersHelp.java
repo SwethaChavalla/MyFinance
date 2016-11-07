@@ -79,30 +79,8 @@ public class FinancialVouchersHelp {
 		//System.out.println("Payment Date is not set so taken current date");
 	}
 
-	public String AdvancePaymentForFacility(WebDriver driver) throws InterruptedException, BiffException, IOException {
-		String advancevoucherno = null;
-		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
-		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet("AdvancePaymentData");
-		int rows = s.getRows();
-		int columns = s.getColumns();
-		String inputdata[][] = new String[rows - 1][columns];
-		for (int i = 1; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				Cell cl = s.getCell(j, i);
-				inputdata[i - 1][j] = cl.getContents();
-			}
-		}
-		
-		for (int i = 0; i < rows - 1; i++) {
-			String url = inputdata[i][0];
-			String dateid = inputdata[i][1];
-			String Block = inputdata[i][2];
-			String Flatno = inputdata[i][3];
-			String vouchertype = inputdata[i][4];
-			String advanceamount = inputdata[i][5];
-			String naration = inputdata[i][6];
-			String message = inputdata[i][7];
+	public String AdvancePaymentForFacility(WebDriver driver,String url,String dateid,String Block,String Flatno,
+		String vouchertype,String advanceamount,String naration,String message) throws InterruptedException, BiffException, IOException {
 			driver.navigate().to(url);
 			Thread.sleep(2000);
 			driver.findElement(By.id("Payment")).click(); // payment button
@@ -140,37 +118,12 @@ public class FinancialVouchersHelp {
 			Thread.sleep(2000);
 			String advancevoucherno1 = vouchermessage.split(" ")[1];
 			System.out.println(message + advancevoucherno1);
-			advancevoucherno = advancevoucherno1;
-			
-		}
-		
-		return advancevoucherno;
+			return advancevoucherno1;
 	}
 
-	public void AdvancePaymentForGeneralAndMaintenance(WebDriver driver)
+	public void AdvancePaymentForGeneralAndMaintenance(WebDriver driver,String url,String dateid,String Block
+			,String Flatno,String vouchertype,String advanceamount,String naration,String message)
 			throws InterruptedException, BiffException, IOException {
-
-		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
-		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet("AdvancePaymentDataForG&M");
-		int rows = s.getRows();
-		int columns = s.getColumns();
-		String inputdata[][] = new String[rows - 1][columns];
-		for (int i = 1; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				Cell cl = s.getCell(j, i);
-				inputdata[i - 1][j] = cl.getContents();
-			}
-		}
-		for (int i = 0; i < rows - 1; i++) {
-			String url = inputdata[i][0];
-			String dateid = inputdata[i][1];
-			String Block = inputdata[i][2];
-			String Flatno = inputdata[i][3];
-			String vouchertype = inputdata[i][4];
-			String advanceamount = inputdata[i][5];
-			String naration = inputdata[i][6];
-			String message = inputdata[i][7];
 			driver.navigate().to(url);
 			Thread.sleep(2000);
 			driver.navigate().to(url);
@@ -208,24 +161,10 @@ public class FinancialVouchersHelp {
 			System.out.println(message + advancevoucherno1);
 		}
 
-	}
+	
 
-	public void ReverseAdvance(WebDriver driver, String advancevoucherno) throws InterruptedException, BiffException, IOException {
-		String reverseadvancevoucherno = null;
-		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
-		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet("ReverseAdvanceURL");
-		int rows = s.getRows();
-		int columns = s.getColumns();
-		String inputdata[][] = new String[rows - 1][columns];
-		for (int i = 1; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				Cell cl = s.getCell(j, i);
-				inputdata[i - 1][j] = cl.getContents();
-			}
-		}
-		for (int x = 0; x < rows - 1; x++) {
-			String url = inputdata[x][0];
+	public void ReverseAdvance(WebDriver driver,String url, String advancevoucherno) throws InterruptedException, BiffException, IOException {
+		String reverseadvancevoucherno;
 		driver.navigate().to(url);
 		Thread.sleep(2000);
 		driver.findElement(By.id("RevAdv")).click();
@@ -253,9 +192,9 @@ public class FinancialVouchersHelp {
 				break loop1;
 
 			}
-		}
-		if (reverseadvancevoucherno == null) {
-			driver.findElement(By.xpath(".//*[@id='Popup']/div/div/div[3]/div[3]/button[2]")).click();
+		
+			else {
+			//driver.findElement(By.xpath(".//*[@id='Popup']/div/div/div[3]/div[3]/button[2]")).click();
 			System.out.println("Voucher does not exist in the list:" + advancevoucherno);
 		}
 		}
