@@ -81,8 +81,35 @@ public String GenerateFixedInvoiceno(WebDriver driver,String URL,String Invoiced
 				return fixedvoucherno;
 }
 
-      public void SelectTaxInProfile(WebDriver driver) throws InterruptedException, BiffException, IOException{
-    	  System.out.println("Service Tax is not selected");
+      public void SelectTaxInProfile(WebDriver driver,String url,String choose,String Taxpercentage) throws InterruptedException, BiffException, IOException{
+    	  driver.navigate().to(url);
+    	  WebElement checkbox = driver.findElement(By.id("ServiceTax"));
+    	  String selectcheckbox = "yes";
+    	  if(selectcheckbox.equals(choose)){
+    	  if(checkbox.isSelected() == true){
+    		  System.out.println("Tax Percentage is:  "  + Taxpercentage);
+    		      		  
+    	  }
+    	  else{
+    		  checkbox.click();
+    			Thread.sleep(2000);
+    			driver.findElement(By.id("ServiceTaxPercent")).sendKeys(Taxpercentage);
+    			Thread.sleep(2000);
+    			driver.findElement(By.id("btnSave")).click();
+    			ldr.logout(driver);
+    	  }
+    	  }
+    	  else{
+    		 if(checkbox.isSelected() == true){
+    			 checkbox.click();
+    			 Thread.sleep(2000);
+     			driver.findElement(By.id("btnSave")).click();
+     			ldr.logout(driver);
+    		  }
+    		 else{
+    			 System.out.println("Tax Percentage is:  "  + Taxpercentage);
+    		 }
+    	  }
       }
       
       public void setDate(WebDriver driver,String dateid,int year,int month,int day) throws InterruptedException{
@@ -137,37 +164,14 @@ public String GenerateFixedInvoiceno(WebDriver driver,String URL,String Invoiced
   		  		return fixedvoucherno;
   }
       
-      public String GenerateFixedInvoicenoWithServiceTax(WebDriver driver) throws InterruptedException, BiffException, IOException {
-  		String[][] fixedvoucherno = new String[1][1];
+     /* public String GenerateFixedInvoicenoWithServiceTax(WebDriver driver,String URL,String Invoicedateid,String Duedateid
+    		  ,String apartment,String Block,String amount,String narration,String URL2) throws InterruptedException, BiffException, IOException {
   		String URL1 = "https://www.itsmyaccount.com/login/";
   		String username = "DEMO_10";
   		String password = "DEMO_10";
-  		Thread.sleep(4000);
-  		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
-  		Workbook ws = Workbook.getWorkbook(fs);
-  		Sheet s = ws.getSheet("FixedInvoiceGenerationService");
-  		int rows = s.getRows();
-  		int columns = s.getColumns();
-  		String inputdata[][] = new String[rows-1][columns];
-  		for (int i = 1; i < rows; i++) {
-  			for (int j = 0; j < columns; j++) {
-  				Cell cl = s.getCell(j, i);
-  				inputdata[i-1][j] = cl.getContents();
-  			}
-  		}
   		SelectTaxInProfile(driver);
   		ldr.adminlogin(driver, URL1, username, password);
-  		for (int i = 0; i < rows-1; i++) {
-  			Thread.sleep(2000);
-  				String URL = inputdata[i][0];
-  				String Invoicedateid = inputdata[i][1];
-				String Duedateid = inputdata[i][2];
-  				String apartment = inputdata[i][3];
-  				String Block = inputdata[i][4];
-  				String amount = inputdata[i][5];
-  				String narration = inputdata[i][6];
-  				String URL2 = inputdata[i][7];
-  				driver.navigate().to(URL);
+  			driver.navigate().to(URL);
   				Thread.sleep(2000);
   				driver.findElement(By.id("Fixed")).click();
   				Thread.sleep(2000);
@@ -205,14 +209,9 @@ public String GenerateFixedInvoiceno(WebDriver driver,String URL,String Invoiced
   				alert.accept();
   				String splitmessage = message.split(" ")[2];
   				System.out.println("Maintanance fixed invoice no. with Service Tax  " + splitmessage);
-  				Thread.sleep(2000);
-  				fixedvoucherno[0][0] = splitmessage;
-  				Thread.sleep(2000);
   				ldr.SearchVoucherno(driver,URL2,splitmessage);
-  				}
-  		String voucher = fixedvoucherno[0][0];
-  		return voucher;
-  }
+  		 		return splitmessage;
+  }*/
 
 	
 	public void ReverseInvoice(WebDriver driver,String URL, String splitmessage,String dateid,String URL2) throws InterruptedException, BiffException, IOException {
