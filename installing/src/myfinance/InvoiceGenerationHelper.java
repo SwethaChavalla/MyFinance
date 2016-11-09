@@ -30,18 +30,29 @@ import jxl.read.biff.BiffException;
 
 public class InvoiceGenerationHelper {
 	// WebDriver driver = new FirefoxDriver();
+	String URL = "https://test-itsmyaccount.azurewebsites.net/Login";
+	String username = "DEMO_12";
+	String password = "Welcome";
 	logindetails ldr = new logindetails();
-	String splitmessge;	 
+	String splitmessge;	
+	
 
-public String GenerateFixedInvoiceno(WebDriver driver,String URL,String Invoicedateid,String Duedateid,String apartment
+public String GenerateFixedInvoiceno(WebDriver driver,String URL,String Invoicedateid,String Inyear,String Inmonth,
+		String Indate,String Duedateid,String Dueyear,String Duemonth, String Duedate,String apartment
 		,String Block,String amount,String narration,String URL2) throws InterruptedException, BiffException, IOException {
-				driver.navigate().to(URL);
+	int year = Integer.parseInt(Inyear);
+	int month = Integer.parseInt(Inmonth);
+	int date = Integer.parseInt(Indate);
+	int Dyear = Integer.parseInt(Dueyear);
+	int Dmonth = Integer.parseInt(Duemonth);
+	int Ddate = Integer.parseInt(Duedate);
+	            driver.navigate().to(URL);
 				Thread.sleep(2000);
 				driver.findElement(By.id("Fixed")).click();
 				Thread.sleep(2000);
-				setDate(driver,Invoicedateid,2016,10,1);
+				setDate(driver,Invoicedateid,year,month,date);
 				Thread.sleep(2000);
-				setDate(driver,Duedateid,2016,10,13);
+				setDate(driver,Duedateid,Dyear,Dmonth,Ddate);
 				Thread.sleep(2000);
 				driver.findElement(
 						By.xpath(".//*[@id='Invoice']/div[1]/div[2]/div/div[1]/div[2]/div[2]/div/div[2]/div/a/i"))
@@ -107,10 +118,11 @@ public String GenerateFixedInvoiceno(WebDriver driver,String URL,String Invoiced
      			ldr.logout(driver);
     		  }
     		 else{
-    			 System.out.println("Tax Percentage is:  "  + Taxpercentage);
+    			 System.out.println("Tax not selected");
     		 }
     	  }
-      }
+    	  ldr.logout(driver);
+    	  }
       
       public void setDate(WebDriver driver,String dateid,int year,int month,int day) throws InterruptedException{
     	  System.out.println("Taken Current Date");
@@ -164,56 +176,7 @@ public String GenerateFixedInvoiceno(WebDriver driver,String URL,String Invoiced
   		  		return fixedvoucherno;
   }
       
-     /* public String GenerateFixedInvoicenoWithServiceTax(WebDriver driver,String URL,String Invoicedateid,String Duedateid
-    		  ,String apartment,String Block,String amount,String narration,String URL2) throws InterruptedException, BiffException, IOException {
-  		String URL1 = "https://www.itsmyaccount.com/login/";
-  		String username = "DEMO_10";
-  		String password = "DEMO_10";
-  		SelectTaxInProfile(driver);
-  		ldr.adminlogin(driver, URL1, username, password);
-  			driver.navigate().to(URL);
-  				Thread.sleep(2000);
-  				driver.findElement(By.id("Fixed")).click();
-  				Thread.sleep(2000);
-  				setDate(driver,Invoicedateid,2016,9,1);
-				Thread.sleep(2000);
-				setDate(driver,Duedateid,2016,9,15);
-  				Thread.sleep(2000);
-  				driver.findElement(
-  						By.xpath(".//*[@id='Invoice']/div[1]/div[2]/div/div[1]/div[2]/div[2]/div/div[2]/div/a/i"))
-  						.click();
-  				Thread.sleep(4000);
-  				driver.findElement(By.linkText(apartment)).click();
-  				Thread.sleep(2000);
-  				driver.findElement(
-  						By.id("auto_ApartmentID")).sendKeys(Block);
-  				Thread.sleep(2000);
-  				driver.findElement(By.id("BA1")).clear();
-  				Thread.sleep(2000);
-  				driver.findElement(By.id("BA1")).sendKeys(amount);// basic
-  																	// amount
-  				Thread.sleep(2000);
-  				driver.findElement(By.id("x1")).sendKeys(narration);// narration
-  				Thread.sleep(2000);
-  				driver.findElement(By.id("Gen")).click(); // Generate button
-  				Thread.sleep(5000);
-  				driver.findElement(By.id("Generate")).click();// yes button
-  				Thread.sleep(2000);
-  				driver.findElement(By.id("GenInv")).click(); // generate invoice
-  																// button
-  				 WebDriverWait wait = new WebDriverWait(driver,50);
- 				wait.until(ExpectedConditions.alertIsPresent());
-  				Alert alert = driver.switchTo().alert();
-  				String message = alert.getText();
-  				System.out.println(message);
-  				alert.accept();
-  				String splitmessage = message.split(" ")[2];
-  				System.out.println("Maintanance fixed invoice no. with Service Tax  " + splitmessage);
-  				ldr.SearchVoucherno(driver,URL2,splitmessage);
-  		 		return splitmessage;
-  }*/
-
-	
+     
 	public void ReverseInvoice(WebDriver driver,String URL, String splitmessage,String dateid,String URL2) throws InterruptedException, BiffException, IOException {
     	driver.navigate().to(URL);
 		Thread.sleep(4000);
