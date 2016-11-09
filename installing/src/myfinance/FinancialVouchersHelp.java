@@ -161,7 +161,58 @@ public class FinancialVouchersHelp {
 			System.out.println(message + advancevoucherno1);
 		}
 
-	
+	public void Waiver(WebDriver driver,String url,String date,String year,String month,String date1,
+			String Block,String apartment,String waveofvoucher,String editamount,String narration) throws InterruptedException{
+		int waveyear = Integer.parseInt(year);
+		int wavemonth = Integer.parseInt(month);
+		int wavedate = Integer.parseInt(date1);
+		driver.navigate().to(url);
+		Thread.sleep(2000);
+		driver.findElement(By.id("WaiveOff")).click();
+		Thread.sleep(2000);
+		setDate(driver,date,waveyear,wavemonth,wavedate);
+		Thread.sleep(2000);
+		driver.findElement(By.id("auto_BlockID")).clear();
+		//driver.findElement(By.xpath(".//*[@id='Payment']/div/div/div[2]/div[2]/div[1]/div/a/i")).click();//Block dropdown
+		Thread.sleep(2000);
+		driver.findElement(By.id("auto_BlockID")).sendKeys(Block);
+		Thread.sleep(2000);
+		driver.findElement(By.id("auto_ApartmentId")).clear();
+		Thread.sleep(2000);
+		driver.findElement(By.id("auto_ApartmentId")).sendKeys(apartment);
+		Thread.sleep(2000);
+		driver.findElement(By.id("Go")).click();
+		Thread.sleep(2000);
+		WebElement Waveoftable= driver.findElement(By.xpath(".//*[@id='Payment']/div/div/div[2]/div[4]/table/tbody"));
+		List<WebElement> rows1 = Waveoftable.findElements(By.tagName("tr"));
+		int rowscount = rows1.size();
+		System.out.println(rowscount);
+		for (rowscount = 0; rowscount < rows1.size(); rowscount++) {
+			System.out.println("swetha1");
+			List<WebElement> columns1 = rows1.get(rowscount).findElements(By.tagName("td"));
+			String rowvalue = columns1.get(1).getText();
+			if (rowvalue.equals(waveofvoucher)) {
+				System.out.println("swetha2");
+				columns1.get(0).findElement(By.tagName("input")).click();
+				Thread.sleep(2000);
+				List<WebElement> vlues = columns1.get(5).findElements(By.tagName("input"));
+				Thread.sleep(2000);
+				vlues.get(2).clear();
+				vlues.get(2).sendKeys(editamount);
+				driver.findElement(By.id("Narration")).sendKeys(narration);
+				Thread.sleep(4000);
+				driver.findElement(By.id("waiveoff")).click();
+				Thread.sleep(4000);
+				Alert alert = driver.switchTo().alert();
+				Thread.sleep(3000);
+				String message = alert.getText();
+				System.out.println(message);
+				alert.accept();
+				String advancevoucherno1 = message.split(" ")[1];
+				System.out.println("Generated Waveoff Voucher no:   " + advancevoucherno1);
+			}
+		}
+	}
 
 	public void ReverseAdvance(WebDriver driver,String url, String advancevoucherno) throws InterruptedException, BiffException, IOException {
 		String reverseadvancevoucherno;
@@ -200,31 +251,16 @@ public class FinancialVouchersHelp {
 		}
 	}
 	
-	public void PaymentMoreThanTotalAmount(WebDriver driver,String advancevoucher) throws InterruptedException, BiffException, IOException {
-		File fs = new File("C:/Users/Swetha/Desktop/IMA Testing/All Financial Scenarios Test Data.xls");
-		Workbook ws = Workbook.getWorkbook(fs);
-		Sheet s = ws.getSheet("PayingMoreAmount");
-		int rows = s.getRows();
-		int columns = s.getColumns();
-		String inputdata[][] = new String[rows - 1][columns];
-		for (int i = 1; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				Cell cl = s.getCell(j, i);
-				inputdata[i - 1][j] = cl.getContents();
-			}
-		}
-		for (int x = 0; x < rows - 1; x++) {
-			String URL1 = inputdata[x][0];
-			String dateid = inputdata[x][1];
-			String Block = inputdata[x][2];
-			String Flat = inputdata[x][3];
-			String editamount = inputdata[x][4];
-			String narration = inputdata[x][5];
+	public void PaymentMoreThanTotalAmount(WebDriver driver,String URL1,String dateid,String year,String month,String date,
+			String Block,String Flat,String advancevoucher,String editamount,String narration) throws InterruptedException, BiffException, IOException {
+		int payyear = Integer.parseInt(year);
+		int paymonth = Integer.parseInt(month);
+		int paydate = Integer.parseInt(date);
 		driver.navigate().to(URL1);
 		Thread.sleep(2000);
 		driver.findElement(By.id("Payment")).click();
 		Thread.sleep(3000);
-		setDate(driver,dateid,2016,9,28);
+		setDate(driver,dateid,payyear,paymonth,paydate);
 		Thread.sleep(3000);
 		driver.findElement(By.xpath(".//*[@id='Payment']/div/div/div[2]/div[2]/div[1]/div/a/i")).click();//dropdown xpath
 		Thread.sleep(3000);
@@ -262,7 +298,7 @@ public class FinancialVouchersHelp {
 			}
 		}
 
-	}}
+	}
 
 	public void Paymentforscenario4forcancel(WebDriver driver, String URL, String Block, String Flat,
 			String advancevoucher, String editamount, String narration) throws InterruptedException {
